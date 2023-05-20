@@ -4,11 +4,12 @@ namespace App\Http\Controllers\API;
 
 use Exception;
 use App\Models\User;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use App\Helpers\ResponseFormatter;
+use Illuminate\Support\Facades\DB;
 use Laravel\Fortify\Rules\Password;
 use App\Http\Controllers\Controller;
-use App\Models\Student;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -100,8 +101,8 @@ class UserController extends Controller
 
         $id = $request->user()->id;
 
-        $user = User::with(['student' => function ($query) {
-            $query->select('user_id', 'ppi_id', 'name', 'photo')->get();
+        $user = User::with(['role', 'student' => function ($query) {
+            $query->select('user_id', 'ppi_id', 'name', 'photo')->addSelect(DB::raw("SUBSTRING_INDEX(name, ' ', 1) AS short_name"));
         }])->find($id);
 
         return ResponseFormatter::success($user, 'Fetch Success');

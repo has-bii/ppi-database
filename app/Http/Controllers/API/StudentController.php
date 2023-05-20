@@ -149,7 +149,8 @@ class StudentController extends Controller
             if ($studentRequest->hasFile('photo')) {
                 $filePhoto = $studentRequest->file('photo');
 
-                $fileName = $filePhoto->getClientOriginalName();
+                $userName = $request->user()->id;
+                $fileName = $userName . '_img.' . $filePhoto->getClientOriginalExtension();
 
                 $publicPath = public_path('storage/photos');
 
@@ -161,7 +162,8 @@ class StudentController extends Controller
             if ($studentRequest->hasFile('ikamet_file')) {
                 $fileIkamet = $studentRequest->file('ikamet_file');
 
-                $fileName = $fileIkamet->getClientOriginalName();
+                $userName = $request->user()->id;
+                $fileName = $userName . '_ikamet.' . $fileIkamet->getClientOriginalExtension();
 
                 $publicPath = public_path('storage/ikamet');
 
@@ -171,7 +173,16 @@ class StudentController extends Controller
             }
 
             if ($studentRequest->hasFile('ogrenci_belgesi')) {
-                $pathObel = $studentRequest->file('ogrenci_belgesi')->store('public/obel');
+                $fileObel = $studentRequest->file('ogrenci_belgesi');
+
+                $userName = $request->user()->id;
+                $fileName = $userName . '_obel.' . $fileObel->getClientOriginalExtension();
+
+                $publicPath = public_path('storage/obel');
+
+                $fileObel->move($publicPath, $fileName);
+
+                $pathObel = 'storage/obel/' . $fileName;
             }
 
             // updating
