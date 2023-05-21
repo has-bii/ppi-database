@@ -39,7 +39,7 @@ class UpdateStudentRequest extends FormRequest
             'no_aktif' => 'nullable|string|max:255',
             'tahun_masuk' => 'nullable|',
             'ppi_id' => 'nullable|integer',
-            'photo' => 'nullable|image|mimes:jpeg,gif,svg,png,jpg|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,gif,svg,png,jpg',
             'no_ikamet' => 'nullable|string|max:255',
             'ikamet_file' => 'nullable|file|mimes:pdf',
             'ogrenci_belgesi' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
