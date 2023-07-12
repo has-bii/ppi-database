@@ -31,7 +31,6 @@ return new class extends Migration
             $table->string('no_aktif')->nullable();
 
             $table->date('tahun_masuk')->nullable();
-            $table->bigInteger('ppi_id')->unsigned()->nullable();
 
             $table->string('photo')->nullable();
             $table->string('no_ikamet')->nullable();

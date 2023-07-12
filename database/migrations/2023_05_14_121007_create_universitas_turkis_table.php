@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('universitas_turkis', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-
-            $table->timestamps();
         });
     }
 

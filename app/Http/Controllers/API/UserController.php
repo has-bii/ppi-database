@@ -24,15 +24,21 @@ class UserController extends Controller
                 'password' => 'required',
             ]);
 
+            // Check email if exists
+            $user = User::where('email', $request->email)->first();
+            if (!$user) {
+                return ResponseFormatter::error('email is not registered yet!', 401);
+            }
+
             // TODO: Find user by email
             $credentials = request(['email', 'password']);
             if (!Auth::attempt($credentials)) {
-                return ResponseFormatter::error('Unauthorized', 401);
+                return ResponseFormatter::error('Invalid password!', 401);
             }
 
-            $user = User::where('email', $request->email)->first();
-            if (!Hash::check($request->password, $user->password)) {
-                throw new Exception('Invalid password', 404);
+            // Check if account is verified
+            if ($user->is_verified == 0) {
+                return ResponseFormatter::error('Account is not verified by admin!', 404);
             }
 
             // TODO: Generate token
@@ -67,12 +73,6 @@ class UserController extends Controller
                 'role_id' => 2,
             ]);
 
-            $student = Student::create([
-                'user_id' => $user->id,
-                'name' => $request->name,
-                'email' => $request->email,
-            ]);
-
             // Generate token
             $tokenResult = $user->createToken('authToken')->plainTextToken;
 
@@ -81,7 +81,6 @@ class UserController extends Controller
                 'access_token' => $tokenResult,
                 'token_type' => 'Bearer',
                 'user' => $user,
-                'student' => $student,
             ], 'User registered');
         } catch (Exception $e) {
             // TODO: Return error response
@@ -101,9 +100,7 @@ class UserController extends Controller
 
         $id = $request->user()->id;
 
-        $user = User::with(['role', 'student' => function ($query) {
-            $query->select('user_id', 'ppi_id', 'name', 'photo')->addSelect(DB::raw("SUBSTRING_INDEX(name, ' ', 1) AS short_name"));
-        }])->find($id);
+        $user = User::with(['role'])->find($id);
 
         return ResponseFormatter::success($user, 'Fetch Success');
     }

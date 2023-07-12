@@ -17,9 +17,9 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->bigInteger('role_id')->unsigned();
             $table->timestamp('email_verified_at')->nullable();
+            $table->boolean('is_verified')->default(false);
             $table->string('password');
             $table->rememberToken();
-            $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();
         });

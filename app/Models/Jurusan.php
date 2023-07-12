@@ -11,13 +11,7 @@ class Jurusan extends Model
 
     protected $fillable = [
         'name',
-        'universitas_turki_id',
     ];
-
-    public function universitasTurki()
-    {
-        return $this->belongsTo(UniversitasTurki::class);
-    }
 
     public function student()
     {
