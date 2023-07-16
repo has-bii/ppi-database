@@ -27,6 +27,9 @@ Route::name('auth.')->group(function () {
         Route::post('logout', [UserController::class, 'logout'])->name('logout');
         Route::post('update', [UserController::class, 'update'])->name('update');
         Route::get('user', [UserController::class, 'fetch'])->name('fetch');
+        Route::get('users', [UserController::class, 'fetchUsers'])->name('fetchUsers');
+        Route::post('update-users', [UserController::class, 'updateUser'])->name('updateUser');
+        Route::delete('delete', [UserController::class, 'deleteUsers'])->name('deleteUsers');
     });
 });
 

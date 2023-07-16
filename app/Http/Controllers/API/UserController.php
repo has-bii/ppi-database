@@ -12,6 +12,7 @@ use Laravel\Fortify\Rules\Password;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpFoundation\Test\Constraint\ResponseFormatSame;
 
 class UserController extends Controller
 {
@@ -70,7 +71,6 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role_id' => 2,
             ]);
 
             // Generate token
@@ -105,16 +105,50 @@ class UserController extends Controller
         return ResponseFormatter::success($user, 'Fetch Success');
     }
 
+    public function fetchUsers(Request $request)
+    {
+        if ($request->user()->role_id == 1) {
+
+            $limit = $request->input('limit', 100);
+            $name = $request->input('name');
+            $role_id = $request->input('role_id');
+            $is_verified = $request->input('is_verified');
+            $order_field = $request->input('order_field');
+            $order_by = $request->input('order_by');
+
+            $users = User::with('role');
+
+            if ($is_verified) {
+                $users->where('is_verified', $is_verified - 1);
+            }
+
+            if ($role_id) {
+                $users->where('role_id', $role_id);
+            }
+
+            if ($name) {
+                $users->where('name', 'like', '%' . $name . '%');
+            }
+
+            if ($order_field && $order_by) $users->orderBy($order_field, $order_by);
+
+            return ResponseFormatter::success($users->paginate($limit), 'Fetch success');
+        }
+
+
+        return ResponseFormatter::error('Request access denied!');
+    }
+
     public function update(Request $request)
     {
         try {
             $email = $request->input('email');
             $name = $request->input('name');
 
-            // Get company
+
             $user = $request->user();
 
-            // Check if company exists
+
             if (!$user) {
                 throw new Exception('User not found');
             }
@@ -126,6 +160,68 @@ class UserController extends Controller
             ]);
 
             return ResponseFormatter::success($user, 'User updated');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e->getMessage(), 500);
+        }
+    }
+
+    public function updateUser(Request $request)
+    {
+        try {
+            if ($request->user()->role_id != 1)
+                return ResponseFormatter::error('Request access denied!');
+
+            $IDs = $request->input('id');
+            $role_id = $request->input('role_id');
+            $is_verified = $request->input('is_verified');
+            $select_all = $request->input('select_all');
+
+            if ($select_all === 'all') {
+                $users = User::query();
+            } else {
+                if (!$IDs)
+                    return ResponseFormatter::error('ID is required!');
+
+                $IDs = explode(',', $IDs);
+                $users = User::query()->whereIn('id', $IDs);
+            }
+
+            if ($role_id)
+                $users->update(['role_id' => $role_id]);
+
+            if ($is_verified)
+                $users->update(['is_verified' => $is_verified]);
+
+
+            return ResponseFormatter::success(null, 'Updates successful');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e->getMessage(), 500);
+        }
+    }
+
+    public function deleteUsers(Request $request)
+    {
+        try {
+            $id = $request->input('id');
+
+            if ($request->user()->role_id != 1)
+                return ResponseFormatter::error('Request access denied!');
+
+            if (!$id)
+                return ResponseFormatter::error('ID is required!');
+
+            if ($id == $request->user()->id)
+                return ResponseFormatter::error('Cannot delete yourself account');
+
+            $id = explode(',', $id);
+            $user = User::whereIn('id', $id);
+
+            if (!$user)
+                return ResponseFormatter::error('User is not found!');
+
+            $user->delete();
+
+            return ResponseFormatter::success($id, 'User deleted successfully');
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }

@@ -14,29 +14,26 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->unique();
-            $table->string('name')->nullable();
+            $table->string('name');
             $table->string('email');
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable();
-            $table->string('agama')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('no_aktif')->nullable();
+            $table->string('no_paspor')->nullable();
+            $table->string('tc_kimlik')->nullable();
+            $table->date('paspor_exp')->nullable();
             $table->string('tempat_lahir')->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->string('provinsi_indonesia')->nullable();
             $table->string('kota_asal_indonesia')->nullable();
             $table->string('alamat_lengkap_indonesia')->nullable();
-
             $table->enum('tempat_tinggal', ['Apartemen', 'Asrama'])->nullable();
             $table->bigInteger('kota_turki_id')->unsigned()->nullable();
             $table->string('alamat_turki')->nullable();
-            $table->string('whatsapp')->nullable();
-            $table->string('no_aktif')->nullable();
-
-            $table->date('tahun_masuk')->nullable();
-
+            $table->string('tahun_kedatangan')->nullable();
             $table->string('photo')->nullable();
-            $table->string('no_ikamet')->nullable();
             $table->string('ikamet_file')->nullable();
             $table->string('ogrenci_belgesi')->nullable();
-
             $table->bigInteger('universitas_turki_id')->unsigned()->nullable();
             $table->bigInteger('jurusan_id')->unsigned()->nullable();
             $table->enum('jenjang_pendidikan', ['Lise', 'S1', 'S2', 'S3',])->nullable();

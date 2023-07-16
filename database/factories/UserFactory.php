@@ -33,7 +33,8 @@ class UserFactory extends Factory
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
             'profile_photo_path' => null,
-            'current_team_id' => null,
+            'role_id' => $this->faker->numberBetween(1, 3),
+            'is_verified' => $this->faker->numberBetween(0, 1)
         ];
     }
 
@@ -54,14 +55,14 @@ class UserFactory extends Factory
      */
     public function withPersonalTeam(callable $callback = null): static
     {
-        if (! Features::hasTeamFeatures()) {
+        if (!Features::hasTeamFeatures()) {
             return $this->state([]);
         }
 
         return $this->has(
             Team::factory()
                 ->state(fn (array $attributes, User $user) => [
-                    'name' => $user->name.'\'s Team',
+                    'name' => $user->name . '\'s Team',
                     'user_id' => $user->id,
                     'personal_team' => true,
                 ])

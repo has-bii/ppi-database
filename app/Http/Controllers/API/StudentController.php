@@ -10,17 +10,28 @@ use App\Models\User;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class StudentController extends Controller
 {
     public function fetch(Request $request)
     {
 
-        $student = Student::where('user_id', $request->user()->id)->with('kotaTurki', 'ppi', 'universitasTurki', 'jurusan')->first();
+        $user_id = $request->user()->id;
+
+        $student = Student::where('user_id', $user_id)->with('kotaTurki', 'universitasTurki', 'jurusan')->first();
 
         if (!$student) {
 
-            return ResponseFormatter::error('Data not found');
+            $student = Student::create([
+                'user_id' => $user_id,
+                'name' => $request->user()->name,
+                'email' => $request->user()->email
+            ]);
+
+            $student = Student::query()->where('user_id', $user_id)->first();
+
+            return ResponseFormatter::success($student, 'Fetch success');
         }
 
         return ResponseFormatter::success($student, 'Data found');
@@ -39,9 +50,9 @@ class StudentController extends Controller
         $kota_asal_indonesia = $request->input('kota_asal_indonesia');
         $tempat_tinggal = $request->input('tempat_tinggal');
         $kota_turki_id = $request->input('kota_turki_id');
-        $tahun_masuk = $request->input('tahun_masuk');
+        $tahun_kedatangan = $request->input('tahun_kedatangan');
         $ppi_id = $request->input('ppi_id');
-        $no_ikamet = $request->input('no_ikamet');
+        $tc_kimlik = $request->input('tc_kimlik');
         $universitas_turki_id = $request->input('universitas_turki_id');
         $jurusan_id = $request->input('jurusan_id');
         $jenjang_pendidikan = $request->input('jenjang_pendidikan');
@@ -87,8 +98,8 @@ class StudentController extends Controller
             $students->where('tempat_tinggal', $tempat_tinggal);
         }
 
-        if ($tahun_masuk) {
-            $students->where('tahun_masuk', $tahun_masuk);
+        if ($tahun_kedatangan) {
+            $students->where('tahun_kedatangan', $tahun_kedatangan);
         }
 
         if ($kota_turki_id) {
@@ -99,8 +110,8 @@ class StudentController extends Controller
             $students->where('ppi_id', $ppi_id);
         }
 
-        if ($no_ikamet) {
-            $students->where('no_ikamet', 'like', '%' . $no_ikamet . '%');
+        if ($tc_kimlik) {
+            $students->where('tc_kimlik', 'like', '%' . $tc_kimlik . '%');
         }
 
         if ($universitas_turki_id) {
@@ -119,26 +130,12 @@ class StudentController extends Controller
             $students->where('tahun_ke', $tahun_ke);
         }
 
-        if (!$students) {
-
-            return ResponseFormatter::error('No students data found');
-        }
-
         return ResponseFormatter::success($students->paginate($limit), 'Students datas found');
-    }
-
-    public function fetch_students_count()
-    {
-
-        $count = Student::where('ppi_id', 1)->get()->count();
-
-        return ResponseFormatter::success($count, 'Data found');
     }
 
     public function update(Request $request, UpdateStudentRequest $studentRequest)
     {
         try {
-
             // Student
             $student = Student::where('user_id', $request->user()->id)->first();
 
@@ -149,40 +146,46 @@ class StudentController extends Controller
             if ($studentRequest->hasFile('photo')) {
                 $filePhoto = $studentRequest->file('photo');
 
-                $userName = $request->user()->id;
-                $fileName = $userName . '_img.' . $filePhoto->getClientOriginalExtension();
+                $fileName = $filePhoto->getClientOriginalName();
 
                 $publicPath = public_path('storage/photos');
 
                 $filePhoto->move($publicPath, $fileName);
 
                 $pathPhoto = 'storage/photos/' . $fileName;
+
+                if ($student->photo)
+                    unlink(public_path($student->photo));
             }
 
             if ($studentRequest->hasFile('ikamet_file')) {
                 $fileIkamet = $studentRequest->file('ikamet_file');
 
-                $userName = $request->user()->id;
-                $fileName = $userName . '_ikamet.' . $fileIkamet->getClientOriginalExtension();
+                $fileName = $fileIkamet->getClientOriginalName();
 
                 $publicPath = public_path('storage/ikamet');
 
                 $fileIkamet->move($publicPath, $fileName);
 
                 $pathIkamet = 'storage/ikamet/' . $fileName;
+
+                if ($student->ikamet_file)
+                    unlink(public_path($student->ikamet_file));
             }
 
             if ($studentRequest->hasFile('ogrenci_belgesi')) {
                 $fileObel = $studentRequest->file('ogrenci_belgesi');
 
-                $userName = $request->user()->id;
-                $fileName = $userName . '_obel.' . $fileObel->getClientOriginalExtension();
+                $fileName = $fileObel->getClientOriginalName();
 
                 $publicPath = public_path('storage/obel');
 
                 $fileObel->move($publicPath, $fileName);
 
                 $pathObel = 'storage/obel/' . $fileName;
+
+                if ($student->ogrenci_belgesi)
+                    unlink(public_path($student->ogrenci_belgesi));
             }
 
             // updating
@@ -190,9 +193,8 @@ class StudentController extends Controller
                 'name' => isset($studentRequest->name) ? $studentRequest->name : $student->name,
                 'email' => isset($studentRequest->email) ? $studentRequest->email : $student->email,
                 'jenis_kelamin' => isset($studentRequest->jenis_kelamin) ? $studentRequest->jenis_kelamin : $student->jenis_kelamin,
-                'agama' => isset($studentRequest->agama) ? $studentRequest->agama : $student->agama,
                 'tempat_lahir' => isset($studentRequest->tempat_lahir) ? $studentRequest->tempat_lahir : $student->tempat_lahir,
-                'tanggal_lahir' => isset($studentRequest->tanggal_lahir) ? Carbon::createFromFormat('Y-m-d', $studentRequest->tanggal_lahir)->format('Y-m-d') : $student->tanggal_lahir,
+                'tanggal_lahir' => isset($studentRequest->tanggal_lahir) ? $studentRequest->tanggal_lahir : $student->tanggal_lahir,
                 'provinsi_indonesia' => isset($studentRequest->provinsi_indonesia) ? $studentRequest->provinsi_indonesia : $student->provinsi_indonesia,
                 'kota_asal_indonesia' => isset($studentRequest->kota_asal_indonesia) ? $studentRequest->kota_asal_indonesia : $student->kota_asal_indonesia,
                 'alamat_lengkap_indonesia' => isset($studentRequest->alamat_lengkap_indonesia) ? $studentRequest->alamat_lengkap_indonesia : $student->alamat_lengkap_indonesia,
@@ -201,10 +203,11 @@ class StudentController extends Controller
                 'alamat_turki' => isset($studentRequest->alamat_turki) ? $studentRequest->alamat_turki : $student->alamat_turki,
                 'whatsapp' => isset($studentRequest->whatsapp) ? $studentRequest->whatsapp : $student->whatsapp,
                 'no_aktif' => isset($studentRequest->no_aktif) ? $studentRequest->no_aktif : $student->no_aktif,
-                'tahun_masuk' => isset($studentRequest->tahun_masuk) ? $studentRequest->tahun_masuk : $student->tahun_masuk,
-                'ppi_id' => isset($studentRequest->ppi_id) ? $studentRequest->ppi_id : $student->ppi_id,
+                'tahun_kedatangan' => isset($studentRequest->tahun_kedatangan) ? $studentRequest->tahun_kedatangan : $student->tahun_kedatangan,
                 'photo' => isset($pathPhoto) ? $pathPhoto : $student->photo,
-                'no_ikamet' => isset($studentRequest->no_ikamet) ? $studentRequest->no_ikamet : $student->no_ikamet,
+                'no_paspor' => isset($studentRequest->no_paspor) ? $studentRequest->no_paspor : $student->no_paspor,
+                'paspor_exp' => isset($studentRequest->paspor_exp) ? $studentRequest->paspor_exp : $student->paspor_exp,
+                'tc_kimlik' => isset($studentRequest->tc_kimlik) ? $studentRequest->tc_kimlik : $student->tc_kimlik,
                 'ikamet_file' => isset($pathIkamet) ? $pathIkamet : $student->ikamet_file,
                 'ogrenci_belgesi' => isset($pathObel) ? $pathObel : $student->ogrenci_belgesi,
                 'universitas_turki_id' => isset($studentRequest->universitas_turki_id) ? $studentRequest->universitas_turki_id : $student->universitas_turki_id,
