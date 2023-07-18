@@ -13,9 +13,11 @@ class Student extends Model
         'user_id',
         'name',
         'email',
+        'status_id',
         'jenis_kelamin',
         'agama',
-        'tempat_lahir',
+        'tc_kimlik',
+        'kimlik_exp',
         'tanggal_lahir',
         'provinsi_indonesia',
         'kota_asal_indonesia',
@@ -27,7 +29,6 @@ class Student extends Model
         'no_aktif',
         'tahun_kedatangan',
         'photo',
-        'tc_kimlik',
         'no_paspor',
         'paspor_exp',
         'ikamet_file',
@@ -43,6 +44,11 @@ class Student extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function status()
+    {
+        return $this->belongsTo(Status::class, 'status_id');
+    }
+
     public function kotaTurki()
     {
         return $this->belongsTo(KotaTurki::class, 'kota_turki_id');
@@ -51,11 +57,6 @@ class Student extends Model
     public function universitasTurki()
     {
         return $this->belongsTo(UniversitasTurki::class, 'universitas_turki_id');
-    }
-
-    public function ppi()
-    {
-        return $this->belongsTo(Ppi::class, 'ppi_id');
     }
 
     public function jurusan()

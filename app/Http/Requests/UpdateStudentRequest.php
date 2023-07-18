@@ -27,7 +27,7 @@ class UpdateStudentRequest extends FormRequest
             'email' => 'nullable|email|string|max:255',
             'jenis_kelamin' => 'nullable|string|in:Laki-laki,Perempuan',
             'agama' => 'nullable|string|max:255',
-            'tempat_lahir' => 'nullable|string|max:255',
+            'kimlik_exp' => 'nullable|date|max:255',
             'tanggal_lahir' => 'nullable|date',
             'provinsi_indonesia' => 'nullable|string|max:255',
             'kota_asal_indonesia' => 'nullable|string|max:255',

@@ -16,13 +16,14 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned()->unique();
             $table->string('name');
             $table->string('email');
+            $table->bigInteger('status_id')->unsigned();
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable();
             $table->string('whatsapp')->nullable();
             $table->string('no_aktif')->nullable();
             $table->string('no_paspor')->nullable();
             $table->string('tc_kimlik')->nullable();
+            $table->date('kimlik_exp')->nullable();
             $table->date('paspor_exp')->nullable();
-            $table->string('tempat_lahir')->nullable();
             $table->date('tanggal_lahir')->nullable();
             $table->string('provinsi_indonesia')->nullable();
             $table->string('kota_asal_indonesia')->nullable();

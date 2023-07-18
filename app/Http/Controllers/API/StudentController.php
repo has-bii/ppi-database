@@ -34,7 +34,7 @@ class StudentController extends Controller
             return ResponseFormatter::success($student, 'Fetch success');
         }
 
-        return ResponseFormatter::success($student, 'Data found');
+        return ResponseFormatter::success($student, 'Fetch success');
     }
 
     public function fetch_students(Request $request)
@@ -45,20 +45,18 @@ class StudentController extends Controller
         $name = $request->input('name');
         $email = $request->input('email');
         $jenis_kelamin = $request->input('jenis_kelamin');
-        $agama = $request->input('agama');
         $provinsi_indonesia = $request->input('provinsi_indonesia');
         $kota_asal_indonesia = $request->input('kota_asal_indonesia');
         $tempat_tinggal = $request->input('tempat_tinggal');
         $kota_turki_id = $request->input('kota_turki_id');
         $tahun_kedatangan = $request->input('tahun_kedatangan');
-        $ppi_id = $request->input('ppi_id');
         $tc_kimlik = $request->input('tc_kimlik');
         $universitas_turki_id = $request->input('universitas_turki_id');
         $jurusan_id = $request->input('jurusan_id');
         $jenjang_pendidikan = $request->input('jenjang_pendidikan');
         $tahun_ke = $request->input('tahun_ke');
 
-        $students = Student::with('kotaTurki', 'ppi', 'universitasTurki');
+        $students = Student::with('kotaTurki', 'status', 'jurusan', 'universitasTurki');
 
         if ($user_id) {
             $student = $students->find($user_id);
@@ -75,15 +73,11 @@ class StudentController extends Controller
         }
 
         if ($email) {
-            $students->where('email', $email);
+            $students->where('email', 'like', '%' . $email . '%');
         }
 
         if ($jenis_kelamin) {
             $students->where('jenis_kelamin', $jenis_kelamin);
-        }
-
-        if ($agama) {
-            $students->where('agama', $agama);
         }
 
         if ($provinsi_indonesia) {
@@ -104,10 +98,6 @@ class StudentController extends Controller
 
         if ($kota_turki_id) {
             $students->where('kota_turki_id', $kota_turki_id);
-        }
-
-        if ($ppi_id) {
-            $students->where('ppi_id', $ppi_id);
         }
 
         if ($tc_kimlik) {
@@ -144,6 +134,9 @@ class StudentController extends Controller
             }
 
             if ($studentRequest->hasFile('photo')) {
+                if ($student->photo)
+                    unlink(public_path($student->photo));
+
                 $filePhoto = $studentRequest->file('photo');
 
                 $fileName = $filePhoto->getClientOriginalName();
@@ -153,12 +146,12 @@ class StudentController extends Controller
                 $filePhoto->move($publicPath, $fileName);
 
                 $pathPhoto = 'storage/photos/' . $fileName;
-
-                if ($student->photo)
-                    unlink(public_path($student->photo));
             }
 
             if ($studentRequest->hasFile('ikamet_file')) {
+                if ($student->ikamet_file)
+                    unlink(public_path($student->ikamet_file));
+
                 $fileIkamet = $studentRequest->file('ikamet_file');
 
                 $fileName = $fileIkamet->getClientOriginalName();
@@ -168,12 +161,12 @@ class StudentController extends Controller
                 $fileIkamet->move($publicPath, $fileName);
 
                 $pathIkamet = 'storage/ikamet/' . $fileName;
-
-                if ($student->ikamet_file)
-                    unlink(public_path($student->ikamet_file));
             }
 
             if ($studentRequest->hasFile('ogrenci_belgesi')) {
+                if ($student->ogrenci_belgesi)
+                    unlink(public_path($student->ogrenci_belgesi));
+
                 $fileObel = $studentRequest->file('ogrenci_belgesi');
 
                 $fileName = $fileObel->getClientOriginalName();
@@ -183,9 +176,6 @@ class StudentController extends Controller
                 $fileObel->move($publicPath, $fileName);
 
                 $pathObel = 'storage/obel/' . $fileName;
-
-                if ($student->ogrenci_belgesi)
-                    unlink(public_path($student->ogrenci_belgesi));
             }
 
             // updating
@@ -193,7 +183,7 @@ class StudentController extends Controller
                 'name' => isset($studentRequest->name) ? $studentRequest->name : $student->name,
                 'email' => isset($studentRequest->email) ? $studentRequest->email : $student->email,
                 'jenis_kelamin' => isset($studentRequest->jenis_kelamin) ? $studentRequest->jenis_kelamin : $student->jenis_kelamin,
-                'tempat_lahir' => isset($studentRequest->tempat_lahir) ? $studentRequest->tempat_lahir : $student->tempat_lahir,
+                'kimlik_exp' => isset($studentRequest->kimlik_exp) ? $studentRequest->kimlik_exp : $student->kimlik_exp,
                 'tanggal_lahir' => isset($studentRequest->tanggal_lahir) ? $studentRequest->tanggal_lahir : $student->tanggal_lahir,
                 'provinsi_indonesia' => isset($studentRequest->provinsi_indonesia) ? $studentRequest->provinsi_indonesia : $student->provinsi_indonesia,
                 'kota_asal_indonesia' => isset($studentRequest->kota_asal_indonesia) ? $studentRequest->kota_asal_indonesia : $student->kota_asal_indonesia,
