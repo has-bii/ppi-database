@@ -43,18 +43,17 @@ class StudentController extends Controller
 
         $user_id = $request->input('user_id');
         $name = $request->input('name');
-        $email = $request->input('email');
+        $status_id = $request->input('status_id');
         $jenis_kelamin = $request->input('jenis_kelamin');
-        $provinsi_indonesia = $request->input('provinsi_indonesia');
         $kota_asal_indonesia = $request->input('kota_asal_indonesia');
-        $tempat_tinggal = $request->input('tempat_tinggal');
         $kota_turki_id = $request->input('kota_turki_id');
         $tahun_kedatangan = $request->input('tahun_kedatangan');
-        $tc_kimlik = $request->input('tc_kimlik');
         $universitas_turki_id = $request->input('universitas_turki_id');
-        $jurusan_id = $request->input('jurusan_id');
         $jenjang_pendidikan = $request->input('jenjang_pendidikan');
         $tahun_ke = $request->input('tahun_ke');
+
+        $order_field = $request->input('order_field');
+        $order_by = $request->input('order_by');
 
         $students = Student::with('kotaTurki', 'status', 'jurusan', 'universitasTurki');
 
@@ -72,44 +71,28 @@ class StudentController extends Controller
             $students->where('name', 'like', '%' . $name . '%');
         }
 
-        if ($email) {
-            $students->where('email', 'like', '%' . $email . '%');
+        if ($status_id) {
+            $students->where('status_id', $status_id);
         }
 
         if ($jenis_kelamin) {
             $students->where('jenis_kelamin', $jenis_kelamin);
         }
 
-        if ($provinsi_indonesia) {
-            $students->where('provinsi_indonesia', $provinsi_indonesia);
-        }
-
         if ($kota_asal_indonesia) {
             $students->where('kota_asal_indonesia', $kota_asal_indonesia);
         }
 
-        if ($tempat_tinggal) {
-            $students->where('tempat_tinggal', $tempat_tinggal);
-        }
-
         if ($tahun_kedatangan) {
-            $students->where('tahun_kedatangan', $tahun_kedatangan);
+            $students->where('tahun_kedatangan', 'like', $tahun_kedatangan . '%');
         }
 
         if ($kota_turki_id) {
             $students->where('kota_turki_id', $kota_turki_id);
         }
 
-        if ($tc_kimlik) {
-            $students->where('tc_kimlik', 'like', '%' . $tc_kimlik . '%');
-        }
-
         if ($universitas_turki_id) {
             $students->where('universitas_turki_id', $universitas_turki_id);
-        }
-
-        if ($jurusan_id) {
-            $students->where('jurusan_id', $jurusan_id);
         }
 
         if ($jenjang_pendidikan) {
@@ -119,6 +102,8 @@ class StudentController extends Controller
         if ($tahun_ke) {
             $students->where('tahun_ke', $tahun_ke);
         }
+
+        if ($order_field && $order_by) $students->orderBy($order_field, $order_by);
 
         return ResponseFormatter::success($students->paginate($limit), 'Students datas found');
     }
@@ -182,6 +167,7 @@ class StudentController extends Controller
             $student->update([
                 'name' => isset($studentRequest->name) ? $studentRequest->name : $student->name,
                 'email' => isset($studentRequest->email) ? $studentRequest->email : $student->email,
+                'status_id' => isset($studentRequest->status_id) ? $studentRequest->status_id : $student->status_id,
                 'jenis_kelamin' => isset($studentRequest->jenis_kelamin) ? $studentRequest->jenis_kelamin : $student->jenis_kelamin,
                 'kimlik_exp' => isset($studentRequest->kimlik_exp) ? $studentRequest->kimlik_exp : $student->kimlik_exp,
                 'tanggal_lahir' => isset($studentRequest->tanggal_lahir) ? $studentRequest->tanggal_lahir : $student->tanggal_lahir,
@@ -222,6 +208,31 @@ class StudentController extends Controller
             return ResponseFormatter::success([$student, $user], 'Student data updated');
         } catch (Exception $error) {
             return ResponseFormatter::error($error->getMessage());
+        }
+    }
+
+    public function updateStudents(Request $request)
+    {
+        try {
+            if ($request->user()->role_id != 1)
+                return ResponseFormatter::error('Request access denied!');
+
+            $IDs = $request->input('id');
+            $status_id = $request->input('status_id');
+
+            if (!$IDs)
+                return ResponseFormatter::error('ID is required!');
+
+            $IDs = explode(',', $IDs);
+            $users = Student::query()->whereIn('id', $IDs);
+
+            if ($status_id)
+                $users->update(['status_id' => $status_id]);
+
+
+            return ResponseFormatter::success(null, 'Updates successful');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e->getMessage(), 500);
         }
     }
 }

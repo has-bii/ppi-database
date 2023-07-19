@@ -26,7 +26,7 @@ class StudentFactory extends Factory
             'user_id' => $user->id,
             'name' => $user->name,
             'email' => $user->email,
-            'status_id' => $this->faker->numberBetween(1, 2),
+            'status_id' => $this->faker->numberBetween(1, 3),
             'jenis_kelamin' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
             'whatsapp' => $this->faker->phoneNumber(),
             'no_aktif' => $this->faker->phoneNumber(),
