@@ -40,6 +40,7 @@ Route::prefix('student')->middleware('auth:sanctum')->name('student')->group(fun
     Route::get('fetch_students', [StudentController::class, 'fetch_students'])->name('fetch_students');
     Route::post('update', [StudentController::class, 'update'])->name('update');
     Route::post('update-students', [StudentController::class, 'updateStudents'])->name('updateStudents');
+    Route::get('statistic', [StudentController::class, 'fetch_statistic'])->name('fetch_statistic');
 });
 
 Route::prefix('kotaturki')->middleware('auth:sanctum')->name('kotaturki')->group(function () {

@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use stdClass;
 
 class StudentController extends Controller
 {
@@ -233,6 +234,60 @@ class StudentController extends Controller
             return ResponseFormatter::success(null, 'Updates successful');
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
+        }
+    }
+
+    public function fetch_statistic()
+    {
+        try {
+            $student = Student::selectRaw('DATE_FORMAT(updated_at, "%Y") as year, COUNT(*) as count')
+                ->groupBy('year')
+                ->orderBy('year', 'asc')
+                ->get();
+
+            $jurusan = Student::selectRaw('jurusan_id, COUNT(*) as count')
+                ->whereNotNull('jurusan_id')
+                ->groupBy('jurusan_id')
+                ->orderByDesc('count')
+                ->take(3)
+                ->with('jurusan')
+                ->get();
+
+            $kota = Student::selectRaw('kota_turki_id, COUNT(*) as count')
+                ->whereNotNull('kota_turki_id')
+                ->groupBy('kota_turki_id')
+                ->with('kotaTurki')
+                ->get();
+
+            $asal_kota = Student::selectRaw('kota_asal_indonesia, COUNT(*) as count')
+                ->whereNotNull('kota_asal_indonesia')
+                ->groupBy('kota_asal_indonesia')
+                ->orderByDesc('count')
+                ->get();
+
+            $gender = Student::selectRaw('jenis_kelamin, COUNT(*) as count')
+                ->whereNotNull('jenis_kelamin')
+                ->groupBy('jenis_kelamin')
+                ->orderByDesc('count')
+                ->get();
+
+            $status = Student::selectRaw('status_id, COUNT(*) as count')
+                ->groupBy('status_id')
+                ->orderByDesc('count')
+                ->with('status')
+                ->get();
+
+            $data = new stdClass;
+            $data->student = $student;
+            $data->status = $status;
+            $data->jurusan = $jurusan;
+            $data->kota = $kota;
+            $data->asal_kota = $asal_kota;
+            $data->gender = $gender;
+
+            return ResponseFormatter::success($data, 'Fetched successfully');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e->getMessage());
         }
     }
 }
