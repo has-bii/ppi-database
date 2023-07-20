@@ -240,10 +240,38 @@ class StudentController extends Controller
     public function fetch_statistic()
     {
         try {
-            $student = Student::selectRaw('DATE_FORMAT(updated_at, "%Y") as year, COUNT(*) as count')
-                ->groupBy('year')
-                ->orderBy('year', 'asc')
-                ->get();
+            $year = array();
+            $student_bartin = array();
+            $student_karabuk = array();
+            $student_zonguldak = array();
+
+            for ($i = -5; $i < 1; $i++) {
+                $year[$i + 5] = date('Y', strtotime("$i year"));
+
+                $object = new stdClass;
+                $object->label = $year[$i + 5];
+                $object->count = Student::where('kota_turki_id', 1)->where('tahun_kedatangan', '<=', $year[$i + 5])->count();
+
+                $student_bartin[$i + 5] = $object;
+            }
+
+            for ($i = -5; $i < 1; $i++) {
+                $object = new stdClass;
+                $object->label = $year[$i + 5];
+                $object->count = Student::where('kota_turki_id', 2)->where('tahun_kedatangan', '<=', $year[$i + 5])->count();
+
+                $student_karabuk[$i + 5] = $object;
+            }
+
+            for ($i = -5; $i < 1; $i++) {
+                $object = new stdClass;
+                $object->label = $year[$i + 5];
+                $object->count = Student::where('kota_turki_id', 3)->where('tahun_kedatangan', '<=', $year[$i + 5])->count();
+
+                $student_zonguldak[$i + 5] = $object;
+            }
+
+
 
             $jurusan = Student::selectRaw('jurusan_id, COUNT(*) as count')
                 ->whereNotNull('jurusan_id')
@@ -277,13 +305,20 @@ class StudentController extends Controller
                 ->with('status')
                 ->get();
 
+            $active_student = Student::where('status_id', 1)->count();
+
             $data = new stdClass;
-            $data->student = $student;
+            $data->student = new stdClass;
+            $data->student->label = $year;
+            $data->student->bartin = $student_bartin;
+            $data->student->karabuk = $student_karabuk;
+            $data->student->zonguldak = $student_zonguldak;
             $data->status = $status;
             $data->jurusan = $jurusan;
             $data->kota = $kota;
             $data->asal_kota = $asal_kota;
             $data->gender = $gender;
+            $data->active_student = $active_student;
 
             return ResponseFormatter::success($data, 'Fetched successfully');
         } catch (Exception $e) {
