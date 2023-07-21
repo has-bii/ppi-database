@@ -291,6 +291,7 @@ class StudentController extends Controller
                 ->whereNotNull('kota_asal_indonesia')
                 ->groupBy('kota_asal_indonesia')
                 ->orderByDesc('count')
+                ->take(3)
                 ->get();
 
             $gender = Student::selectRaw('jenis_kelamin, COUNT(*) as count')
