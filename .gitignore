@@ -18,3 +18,4 @@ yarn-error.log
 /.idea
 /.vscode
 git-auto-pull.sh
+auto-pull.log
