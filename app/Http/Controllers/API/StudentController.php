@@ -287,6 +287,12 @@ class StudentController extends Controller
                 ->with('kotaTurki')
                 ->get();
 
+            $jenjang_pendidikan = Student::selectRaw('jenjang_pendidikan, COUNT(*) as count')
+                ->whereNotNull('jenjang_pendidikan')
+                ->groupBy('jenjang_pendidikan')
+                ->orderBy('jenjang_pendidikan')
+                ->get();
+
             $asal_kota = Student::selectRaw('kota_asal_indonesia, COUNT(*) as count')
                 ->whereNotNull('kota_asal_indonesia')
                 ->groupBy('kota_asal_indonesia')
@@ -316,8 +322,10 @@ class StudentController extends Controller
             $data->student->zonguldak = $student_zonguldak;
             $data->status = $status;
             $data->jurusan = $jurusan;
+            $data->jenjang_pendidikan = $jenjang_pendidikan;
             $data->kota = $kota;
             $data->asal_kota = $asal_kota;
+            $data->gender = $gender;
             $data->gender = $gender;
             $data->active_student = $active_student;
 
