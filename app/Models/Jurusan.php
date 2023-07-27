@@ -17,4 +17,9 @@ class Jurusan extends Model
     {
         return $this->hasMany(Student::class);
     }
+
+    public function new_student()
+    {
+        return $this->hasMany(NewStudent::class);
+    }
 }

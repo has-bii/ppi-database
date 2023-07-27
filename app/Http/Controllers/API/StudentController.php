@@ -7,10 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateStudentRequest;
 use App\Models\Student;
 use App\Models\User;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use stdClass;
 
 class StudentController extends Controller
