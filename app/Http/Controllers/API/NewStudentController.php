@@ -31,7 +31,16 @@ class NewStudentController extends Controller
                 if ($new_student)
                     return ResponseFormatter::success($new_student, 'Fetch Success');
 
-                throw new Exception('Data not found');
+                $new_student = NewStudent::create([
+                    'user_id' => $request->user()->id,
+                    'name' => $request->user()->name,
+                    'email' => $request->user()->email,
+                ]);
+
+                if (!$new_student)
+                    throw new Exception('Error while creating data');
+
+                return ResponseFormatter::success($new_student, 'Fetch Success');
             }
 
             // All data
@@ -83,6 +92,47 @@ class NewStudentController extends Controller
                 throw new Exception('New Student is not created!');
 
             return ResponseFormatter::success($new_student, 'Data created');
+        } catch (Exception $e) {
+            return ResponseFormatter::error($e->getMessage(), 500);
+        }
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            $request->validate([
+                'jenis_kelamin' => 'required|string|in:Laki-laki,Perempuan',
+                'tanggal_lahir' => 'required|date',
+                'provinsi_indonesia' => 'required|string|max:255',
+                'kota_asal_indonesia' => 'required|string|max:255',
+                'alamat_lengkap_indonesia' => 'required|string|max:255',
+                'whatsapp' => 'required|string|max:255',
+                'no_paspor' => 'required|string|max:255',
+                'jenjang_pendidikan' => 'required|string|in:Lise,S1,S2,S3',
+                'jurusan_id' => 'required|integer|exists:jurusans,id',
+            ]);
+
+            $new_student = NewStudent::query()->where('user_id', $request->user()->id);
+
+            if (!$new_student)
+                throw new Exception('New Student not found');
+
+            $new_student->update([
+                'jenis_kelamin' => $request->jenis_kelamin,
+                'tanggal_lahir' => $request->tanggal_lahir,
+                'provinsi_indonesia' => $request->provinsi_indonesia,
+                'kota_asal_indonesia' => $request->kota_asal_indonesia,
+                'alamat_lengkap_indonesia' => $request->alamat_lengkap_indonesia,
+                'whatsapp' => $request->whatsapp,
+                'no_paspor' => $request->no_paspor,
+                'jenjang_pendidikan' => $request->jenjang_pendidikan,
+                'jurusan_id' => $request->jurusan_id
+            ]);
+
+            if (!$new_student)
+                throw new Exception('New Student is not created!');
+
+            return ResponseFormatter::success($new_student, 'Data updated');
         } catch (Exception $e) {
             return ResponseFormatter::error($e->getMessage(), 500);
         }

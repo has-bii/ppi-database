@@ -16,15 +16,15 @@ return new class extends Migration
             $table->bigInteger('user_id')->unsigned()->unique();
             $table->string('name');
             $table->string('email');
-            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
-            $table->date('tanggal_lahir');
-            $table->string('provinsi_indonesia');
-            $table->string('kota_asal_indonesia');
-            $table->string('alamat_lengkap_indonesia');
-            $table->string('whatsapp');
-            $table->string('no_paspor');
-            $table->enum('jenjang_pendidikan', ['S1', 'S2', 'S3',]);
-            $table->bigInteger('jurusan_id')->unsigned();
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan'])->nullable();
+            $table->date('tanggal_lahir')->nullable();
+            $table->string('provinsi_indonesia')->nullable();
+            $table->string('kota_asal_indonesia')->nullable();
+            $table->string('alamat_lengkap_indonesia')->nullable();
+            $table->string('whatsapp')->nullable();
+            $table->string('no_paspor')->nullable();
+            $table->enum('jenjang_pendidikan', ['S1', 'S2', 'S3',])->nullable();
+            $table->bigInteger('jurusan_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }
