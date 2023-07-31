@@ -63,9 +63,3 @@ Route::prefix('jurusan')->middleware('auth:sanctum')->name('jurusan')->group(fun
     Route::get('', [JurusanController::class, 'fetch'])->name('fetch');
     Route::post('add', [JurusanController::class, 'add'])->name('add');
 });
-
-Route::prefix('newstudents')->middleware('auth:sanctum')->name('newstudents')->group(function () {
-    Route::get('', [NewStudentController::class, 'fetch'])->name('fetch');
-    Route::post('create', [NewStudentController::class, 'create'])->name('create');
-    Route::post('update', [NewStudentController::class, 'update'])->name('update');
-});
