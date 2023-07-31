@@ -8,6 +8,7 @@ use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\KotaTurkiController;
 use App\Http\Controllers\API\PpiController;
 use App\Http\Controllers\API\NewStudentController;
+use App\Http\Controllers\API\UserInfoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,4 +63,10 @@ Route::prefix('universitasturki')->middleware('auth:sanctum')->name('universitas
 Route::prefix('jurusan')->middleware('auth:sanctum')->name('jurusan')->group(function () {
     Route::get('', [JurusanController::class, 'fetch'])->name('fetch');
     Route::post('add', [JurusanController::class, 'add'])->name('add');
+});
+
+Route::prefix('user-info')->middleware('auth:sanctum')->name('user-info')->group(function () {
+    Route::get('', [UserInfoController::class, 'fetch'])->name('fetch');
+    Route::post('create', [UserInfoController::class, 'create'])->name('create');
+    Route::post('update', [UserInfoController::class, 'update'])->name('update');
 });
