@@ -5,18 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class FormStatus extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'name',
+        'style'
     ];
-
-    public function user()
-    {
-        return $this->hasMany(User::class);
-    }
 
     public function form()
     {

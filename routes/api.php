@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\API\FormController;
+use App\Http\Controllers\API\FormStatusController;
 use App\Http\Controllers\API\JurusanController;
 use App\Http\Controllers\API\StudentController;
 use App\Http\Controllers\API\UniversitasTurkiController;
@@ -69,4 +71,30 @@ Route::prefix('user-info')->middleware('auth:sanctum')->name('user-info')->group
     Route::get('', [UserInfoController::class, 'fetch'])->name('fetch');
     Route::post('create', [UserInfoController::class, 'create'])->name('create');
     Route::post('update', [UserInfoController::class, 'update'])->name('update');
+});
+
+Route::prefix('form')->middleware('auth:sanctum')->name('form')->group(function () {
+    Route::get('', [FormController::class, 'fetch'])->name('fetch');
+    Route::post('create', [FormController::class, 'create'])->name('create');
+    Route::post('update', [FormController::class, 'update'])->name('update');
+    Route::delete('delete', [FormController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('form-status')->middleware('auth:sanctum')->name('form-status')->group(function () {
+    Route::get('', [FormStatusController::class, 'fetch'])->name('fetch');
+    Route::post('create', [FormStatusController::class, 'create'])->name('create');
+    Route::post('update', [FormStatusController::class, 'update'])->name('update');
+    Route::delete('delete', [FormStatusController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('answer')->middleware('auth:sanctum')->name('answer')->group(function () {
+    Route::post('create', [FormStatusController::class, 'create'])->name('create');
+    Route::post('update', [FormStatusController::class, 'update'])->name('update');
+    Route::delete('delete', [FormStatusController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('question')->middleware('auth:sanctum')->name('question')->group(function () {
+    Route::post('create', [FormStatusController::class, 'create'])->name('create');
+    Route::post('update', [FormStatusController::class, 'update'])->name('update');
+    Route::delete('delete', [FormStatusController::class, 'delete'])->name('delete');
 });

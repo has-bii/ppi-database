@@ -5,21 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Question extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'form_id',
+        'type',
     ];
-
-    public function user()
-    {
-        return $this->hasMany(User::class);
-    }
 
     public function form()
     {
-        return $this->hasMany(Form::class);
+        return $this->belongsTo(Form::class);
+    }
+
+    public function answer()
+    {
+        return $this->hasMany(Answer::class);
     }
 }
