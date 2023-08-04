@@ -8,6 +8,8 @@ use App\Http\Controllers\API\UniversitasTurkiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\UserController;
 use App\Http\Controllers\API\KotaTurkiController;
+use App\Http\Controllers\API\LinkController;
+use App\Http\Controllers\API\MyMenuController;
 use App\Http\Controllers\API\PpiController;
 use App\Http\Controllers\API\NewStudentController;
 use App\Http\Controllers\API\UserInfoController;
@@ -97,4 +99,18 @@ Route::prefix('question')->middleware('auth:sanctum')->name('question')->group(f
     Route::post('create', [FormStatusController::class, 'create'])->name('create');
     Route::post('update', [FormStatusController::class, 'update'])->name('update');
     Route::delete('delete', [FormStatusController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('my-menu')->middleware('auth:sanctum')->name('my-menu')->group(function () {
+    Route::get('', [MyMenuController::class, 'fetch'])->name('fetch');
+    Route::post('create', [MyMenuController::class, 'create'])->name('create');
+    Route::post('update', [MyMenuController::class, 'update'])->name('update');
+    Route::delete('delete', [MyMenuController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('link')->middleware('auth:sanctum')->name('link')->group(function () {
+    Route::get('', [LinkController::class, 'fetch'])->name('fetch');
+    Route::post('create', [LinkController::class, 'create'])->name('create');
+    Route::post('update', [LinkController::class, 'update'])->name('update');
+    Route::delete('delete', [LinkController::class, 'delete'])->name('delete');
 });

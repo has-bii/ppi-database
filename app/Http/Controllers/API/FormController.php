@@ -20,6 +20,7 @@ class FormController extends Controller
             $limit = $request->input('limit', 100);
             $name = $request->input('name');
             $status_id = $request->input('status_id');
+            $role_id = $request->input('role_id');
             $id = $request->input('id');
 
 
@@ -48,6 +49,9 @@ class FormController extends Controller
 
             if ($status_id)
                 $forms->where('status_id', $status_id);
+
+            if ($role_id)
+                $forms->where('role_id', $role_id);
 
             if ($request->user()->role_id === 3)
                 $forms->where('role_id', 3);
@@ -104,10 +108,10 @@ class FormController extends Controller
         try {
 
             $request->validate([
-                'name' => ['string', 'max:255'],
-                'desc' => ['string', 'max:255'],
-                'status_id' => ['integer', 'exists:form_statuses,id'],
-                'role_id' => ['integer', 'exists:roles,id'],
+                'name' => ['nullable', 'string', 'max:255'],
+                'desc' => ['nullable', 'string', 'max:255'],
+                'status_id' => ['nullable', 'integer', 'exists:form_statuses,id'],
+                'role_id' => ['nullable', 'integer', 'exists:roles,id'],
             ]);
 
             $id = $request->input('id');
@@ -115,6 +119,7 @@ class FormController extends Controller
             $desc = $request->input('desc');
             $status_id = $request->input('status_id');
             $role_id = $request->input('role_id');
+            $question = $request->input('question');
 
             if (!$id)
                 throw new Exception("ID field is required!");
@@ -137,6 +142,9 @@ class FormController extends Controller
 
             if ($role_id)
                 $form->update(['role_id' => $role_id]);
+
+            if ($question)
+                $form->update(['question' => $question]);
 
             return ResponseFormatter::success($form, 'Form has been updated successfully');
         } catch (Exception $error) {

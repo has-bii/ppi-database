@@ -14,6 +14,7 @@ class Form extends Model
         'desc',
         'status_id',
         'role_id',
+        'question',
         'created_at',
         'updated_at',
     ];

@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('forms', function (Blueprint $table) {
+        Schema::create('links', function (Blueprint $table) {
             $table->id();
+            $table->integer('my_menu_id');
             $table->string('name');
-            $table->string('desc')->nullable();
-            $table->bigInteger('status_id')->unsigned()->default(2);
-            $table->integer('role_id')->unsigned();
-            $table->json('question')->nullable();
+            $table->boolean('active');
+            $table->string('url');
+            $table->string('icon');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('forms');
+        Schema::dropIfExists('links');
     }
 };
