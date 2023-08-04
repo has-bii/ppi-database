@@ -14,15 +14,27 @@ return new class extends Migration
         Schema::create('user_infos', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id')->unsigned()->unique();
-            $table->string('name');
-            $table->enum('gender', ['laki-laki', 'perempuan']);
-            $table->date('tanggal_lahir');
-            $table->string('email');
-            $table->string('whatsapp');
+            $table->string('nama_depan');
+            $table->string('nama_belakang');
+            $table->string('nama_bapak');
+            $table->string('nama_ibu');
+            $table->enum('kelamin', ['laki-laki', 'perempuan']);
+            $table->string('ttl');
+            $table->string('no_paspor');
             $table->string('provinsi');
             $table->string('kota');
             $table->string('alamat');
+            $table->string('email');
+            $table->string('no_hp');
+            $table->string('no_hp_lain');
+            $table->string('nama_sekolah');
+            $table->string('kota_sekolah');
             $table->string('pas_photo');
+            $table->string('ijazah');
+            $table->string('transkrip');
+            $table->string('paspor');
+            $table->string('surat_rekomendasi');
+            $table->string('surat_izin');
             $table->timestamps();
         });
     }

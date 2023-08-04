@@ -11,15 +11,27 @@ class UserInfo extends Model
 
     protected $fillable = [
         'user_id',
-        'name',
-        'gender',
-        'tanggal_lahir',
-        'email',
-        'whatsapp',
+        'nama_depan',
+        'nama_belakang',
+        'nama_bapak',
+        'nama_ibu',
+        'kelamin',
+        'ttl',
+        'no_paspor',
         'provinsi',
         'kota',
         'alamat',
-        'pas_photo'
+        'email',
+        'no_hp',
+        'no_hp_lain',
+        'nama_sekolah',
+        'kota_sekolah',
+        'pas_photo',
+        'ijazah',
+        'transkrip',
+        'paspor',
+        'surat_rekomendasi',
+        'surat_izin',
     ];
 
     public function user()

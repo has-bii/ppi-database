@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CreateUserInfoRequest;
 use App\Models\UserInfo;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,7 +17,6 @@ class UserInfoController extends Controller
             $limit = $request->input('limit', 100);
             $user_id = $request->input('user_id');
             $name = $request->input('name');
-
 
             // Get one data
             if ($user_id) {
@@ -36,38 +36,75 @@ class UserInfoController extends Controller
         }
     }
 
-    public function create(Request $request)
+    public function create(Request $request, CreateUserInfoRequest $createUserInfoRequest)
     {
         try {
-            $request->validate([
-                'gender' => ['required', 'string', 'in:laki-laki,perempuan'],
-                'tanggal_lahir' => ['required', 'date'],
-                'whatsapp' => ['required', 'string', 'max:255'],
-                'provinsi' => ['required', 'string', 'max:255'],
-                'kota' => ['required', 'string', 'max:255'],
-                'alamat' => ['required', 'string'],
-                'pas_photo' => ['required', 'image', 'mimes:jpeg, png, jpg']
-            ]);
 
-
-            $filePhoto = $request->file('pas_photo');
+            // Pas photo
+            $filePhoto = $createUserInfoRequest->file('pas_photo');
             $fileName = $filePhoto->getClientOriginalName();
             $publicPath = public_path('storage/photos');
             $filePhoto->move($publicPath, $fileName);
             $pathPhoto = 'storage/photos/' . $fileName;
 
+            // Pas ijazah
+            $filePhoto = $createUserInfoRequest->file('ijazah');
+            $fileName = $filePhoto->getClientOriginalName();
+            $publicPath = public_path('storage/files');
+            $filePhoto->move($publicPath, $fileName);
+            $pathIjazah = 'storage/files/' . $fileName;
+
+            // Pas transkrip
+            $filePhoto = $createUserInfoRequest->file('transkrip');
+            $fileName = $filePhoto->getClientOriginalName();
+            $publicPath = public_path('storage/files');
+            $filePhoto->move($publicPath, $fileName);
+            $pathTranskrip = 'storage/files/' . $fileName;
+
+            // Pas paspor
+            $filePhoto = $createUserInfoRequest->file('paspor');
+            $fileName = $filePhoto->getClientOriginalName();
+            $publicPath = public_path('storage/files');
+            $filePhoto->move($publicPath, $fileName);
+            $pathPaspor = 'storage/files/' . $fileName;
+
+            // Pas surat_rekomendasi
+            $filePhoto = $createUserInfoRequest->file('surat_rekomendasi');
+            $fileName = $filePhoto->getClientOriginalName();
+            $publicPath = public_path('storage/files');
+            $filePhoto->move($publicPath, $fileName);
+            $pathSuratRekomendasi = 'storage/files/' . $fileName;
+
+            // Pas surat_izin
+            $filePhoto = $createUserInfoRequest->file('surat_izin');
+            $fileName = $filePhoto->getClientOriginalName();
+            $publicPath = public_path('storage/files');
+            $filePhoto->move($publicPath, $fileName);
+            $pathSuratIzin = 'storage/files/' . $fileName;
 
             $new_user_info = UserInfo::create([
                 'user_id' => $request->user()->id,
-                'name' => $request->user()->name,
-                'email' => $request->user()->email,
-                'gender' => $request->gender,
-                'tanggal_lahir' => $request->tanggal_lahir,
-                'whatsapp' => $request->whatsapp,
-                'provinsi' => $request->provinsi,
-                'kota' => $request->kota,
-                'alamat' => $request->alamat,
+                'nama_depan' => $createUserInfoRequest->nama_depan,
+                'nama_belakang' => $createUserInfoRequest->nama_belakang,
+                'nama_bapak' => $createUserInfoRequest->nama_bapak,
+                'nama_ibu' => $createUserInfoRequest->nama_ibu,
+                'kelamin' => $createUserInfoRequest->kelamin,
+                'ttl' => $createUserInfoRequest->ttl,
+                'no_paspor' => $createUserInfoRequest->no_paspor,
+                'provinsi' => $createUserInfoRequest->provinsi,
+                'kota' => $createUserInfoRequest->kota,
+                'alamat' => $createUserInfoRequest->alamat,
+                'email' => $createUserInfoRequest->email,
+                'no_hp' => $createUserInfoRequest->no_hp,
+                'no_hp_lain' => $createUserInfoRequest->no_hp_lain,
+                'nama_sekolah' => $createUserInfoRequest->nama_sekolah,
+                'kota_sekolah' => $createUserInfoRequest->kota_sekolah,
                 'pas_photo' => $pathPhoto,
+                'ijazah' => $pathIjazah,
+                'transkrip' => $pathTranskrip,
+                'paspor' => $pathPaspor,
+                'surat_rekomendasi' => $pathSuratRekomendasi,
+                'surat_izin' => $pathSuratIzin,
             ]);
 
             if (!$new_user_info)
