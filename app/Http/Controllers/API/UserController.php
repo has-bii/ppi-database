@@ -116,7 +116,7 @@ class UserController extends Controller
             $order_field = $request->input('order_field');
             $order_by = $request->input('order_by');
 
-            $users = User::with('role');
+            $users = User::with('role')->whereNot('role_id', 4);
 
             if ($is_verified) {
                 $users->where('is_verified', $is_verified - 1);

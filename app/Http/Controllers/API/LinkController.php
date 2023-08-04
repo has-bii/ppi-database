@@ -58,7 +58,7 @@ class LinkController extends Controller
                 'id' => ['required', 'integer'],
                 'my_menu_id' => ['nullable', 'integer', 'exists:my_menus,id'],
                 'name' => ['nullable', 'string', 'max:255'],
-                'active' => ['nullable', 'boolean'],
+                'active' => ['nullable', 'integer'],
                 'url' => ['nullable', 'string', 'max:255'],
                 'icon' => ['nullable', 'string', 'max:255'],
             ]);
@@ -74,7 +74,7 @@ class LinkController extends Controller
             if ($request->name)
                 $link->update(['name' => $request->name]);
 
-            if ($request->active)
+            if ($request->active === '0' || $request->active === '1')
                 $link->update(['active' => $request->active]);
 
             if ($request->url)

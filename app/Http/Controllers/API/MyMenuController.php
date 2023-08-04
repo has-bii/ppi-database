@@ -85,7 +85,7 @@ class MyMenuController extends Controller
                 'id' => ['required', 'integer'],
                 'label' => ['nullable', 'string', 'max:255'],
                 'role_id' => ['nullable', 'integer', 'exists:roles,id'],
-                'active' => ['nullable', 'boolean'],
+                'active' => ['nullable', 'integer'],
             ]);
 
             $my_menu = MyMenu::query()->find($request->id);
@@ -99,7 +99,7 @@ class MyMenuController extends Controller
             if ($request->role_id)
                 $my_menu->update(['role_id' => $request->role_id]);
 
-            if ($request->active)
+            if ($request->active === '0' || $request->active === '1')
                 $my_menu->update(['active' => $request->active]);
 
             return ResponseFormatter::success($my_menu, 'Menu has been updated successfully');
