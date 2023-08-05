@@ -18,7 +18,6 @@ class FormStatusController extends Controller
             $name = $request->input('name');
             $style = $request->input('style');
 
-
             // One data
             if ($id) {
                 $status = FormStatus::query()->find($id);

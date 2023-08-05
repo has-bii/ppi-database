@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Helpers\ResponseFormatter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserInfoRequest;
+use App\Http\Requests\UpdateUserInfoRequest;
 use App\Models\UserInfo;
 use Exception;
 use Illuminate\Http\Request;
@@ -116,7 +117,7 @@ class UserInfoController extends Controller
         }
     }
 
-    public function update(Request $request)
+    public function update(Request $request, UpdateUserInfoRequest $updateUserInfoRequest)
     {
         try {
 
@@ -125,53 +126,99 @@ class UserInfoController extends Controller
             if (!$user_info)
                 throw new Exception('User info not found!');
 
-            $request->validate([
-                'gender' => ['string', 'in:laki-laki,perempuan'],
-                'tanggal_lahir' => ['date'],
-                'whatsapp' => ['string', 'max:255'],
-                'provinsi' => ['string', 'max:255'],
-                'kota' => ['string', 'max:255'],
-                'alamat' => ['string'],
-                'pas_photo' => ['image', 'mimes:jpeg, png, jpg']
-            ]);
+            if ($updateUserInfoRequest->hasFile('pas_photo')) {
+                if ($user_info->pas_photo)
+                    unlink(public_path($user_info->pas_photo));
 
-            $gender = $request->input('gender');
-            $tanggal_lahir = $request->input('tanggal_lahir');
-            $whatsapp = $request->input('whatsapp');
-            $provinsi = $request->input('provinsi');
-            $kota = $request->input('kota');
-            $alamat = $request->input('alamat');
-
-            if ($request->hasFile('pas_photo')) {
-                if ($user_info->photo)
-                    unlink(public_path($user_info->photo));
-
-                $filePhoto = $request->file('pas_photo');
-                $fileName = $filePhoto->getClientOriginalName();
+                $filePasPhoto = $updateUserInfoRequest->file('pas_photo');
+                $fileName = $filePasPhoto->getClientOriginalName();
                 $publicPath = public_path('storage/photos');
-                $filePhoto->move($publicPath, $fileName);
-                $pathPhoto = 'storage/photos/' . $fileName;
+                $filePasPhoto->move($publicPath, $fileName);
+                $pathPasPhoto = 'storage/photos/' . $fileName;
 
-                $user_info->pas_photo = $pathPhoto;
+                $user_info->pas_photo = $pathPasPhoto;
             }
 
-            if ($gender)
-                $user_info->gender = $gender;
+            if ($updateUserInfoRequest->hasFile('ijazah')) {
+                if ($user_info->ijazah)
+                    unlink(public_path($user_info->ijazah));
 
-            if ($tanggal_lahir)
-                $user_info->tanggal_lahir = $tanggal_lahir;
+                $fileIjazah = $updateUserInfoRequest->file('ijazah');
+                $fileName = $fileIjazah->getClientOriginalName();
+                $publicPath = public_path('storage/files');
+                $fileIjazah->move($publicPath, $fileName);
+                $pathIjazah = 'storage/files/' . $fileName;
 
-            if ($whatsapp)
-                $user_info->whatsapp = $whatsapp;
+                $user_info->ijazah = $pathIjazah;
+            }
 
-            if ($provinsi)
-                $user_info->provinsi = $provinsi;
+            if ($updateUserInfoRequest->hasFile('transkrip')) {
+                if ($user_info->transkrip)
+                    unlink(public_path($user_info->transkrip));
 
-            if ($kota)
-                $user_info->kota = $kota;
+                $fileTranskrip = $updateUserInfoRequest->file('transkrip');
+                $fileName = $fileTranskrip->getClientOriginalName();
+                $publicPath = public_path('storage/files');
+                $fileTranskrip->move($publicPath, $fileName);
+                $pathTranskrip = 'storage/files/' . $fileName;
 
-            if ($alamat)
-                $user_info->alamat = $alamat;
+                $user_info->transkrip = $pathTranskrip;
+            }
+
+            if ($updateUserInfoRequest->hasFile('paspor')) {
+                if ($user_info->paspor)
+                    unlink(public_path($user_info->paspor));
+
+                $filePaspor = $updateUserInfoRequest->file('paspor');
+                $fileName = $filePaspor->getClientOriginalName();
+                $publicPath = public_path('storage/files');
+                $filePaspor->move($publicPath, $fileName);
+                $pathPaspor = 'storage/files/' . $fileName;
+
+                $user_info->paspor = $pathPaspor;
+            }
+
+            if ($updateUserInfoRequest->hasFile('surat_rekomendasi')) {
+                if ($user_info->surat_rekomendasi)
+                    unlink(public_path($user_info->surat_rekomendasi));
+
+                $fileSuratRekomendasi = $updateUserInfoRequest->file('surat_rekomendasi');
+                $fileName = $fileSuratRekomendasi->getClientOriginalName();
+                $publicPath = public_path('storage/files');
+                $fileSuratRekomendasi->move($publicPath, $fileName);
+                $pathSuratRekomendasi = 'storage/files/' . $fileName;
+
+                $user_info->surat_rekomendasi = $pathSuratRekomendasi;
+            }
+
+            if ($updateUserInfoRequest->hasFile('surat_izin')) {
+                if ($user_info->surat_izin)
+                    unlink(public_path($user_info->surat_izin));
+
+                $fileSuratIzin = $updateUserInfoRequest->file('surat_izin');
+                $fileName = $fileSuratIzin->getClientOriginalName();
+                $publicPath = public_path('storage/files');
+                $fileSuratIzin->move($publicPath, $fileName);
+                $pathSuratIzin = 'storage/files/' . $fileName;
+
+                $user_info->surat_izin = $pathSuratIzin;
+            }
+
+            $user_info->nama_depan = $updateUserInfoRequest->nama_depan;
+            $user_info->nama_belakang = $updateUserInfoRequest->nama_belakang;
+            $user_info->nama_bapak = $updateUserInfoRequest->nama_bapak;
+            $user_info->nama_ibu = $updateUserInfoRequest->nama_ibu;
+            $user_info->kelamin = $updateUserInfoRequest->kelamin;
+            $user_info->ttl = $updateUserInfoRequest->ttl;
+            $user_info->no_paspor = $updateUserInfoRequest->no_paspor;
+            $user_info->provinsi = $updateUserInfoRequest->provinsi;
+            $user_info->kota = $updateUserInfoRequest->kota;
+            $user_info->alamat = $updateUserInfoRequest->alamat;
+            $user_info->email = $updateUserInfoRequest->email;
+            $user_info->no_hp = $updateUserInfoRequest->no_hp;
+            $user_info->no_hp_lain = $updateUserInfoRequest->no_hp_lain;
+            $user_info->nama_sekolah = $updateUserInfoRequest->nama_sekolah;
+            $user_info->kota_sekolah = $updateUserInfoRequest->kota_sekolah;
 
             $user_info->save();
 

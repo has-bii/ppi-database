@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ApplicationController;
 use App\Http\Controllers\API\FormController;
 use App\Http\Controllers\API\FormStatusController;
 use App\Http\Controllers\API\JurusanController;
@@ -113,4 +114,11 @@ Route::prefix('link')->middleware('auth:sanctum')->name('link')->group(function 
     Route::post('create', [LinkController::class, 'create'])->name('create');
     Route::post('update', [LinkController::class, 'update'])->name('update');
     Route::delete('delete', [LinkController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('application')->middleware('auth:sanctum')->name('application')->group(function () {
+    Route::get('', [ApplicationController::class, 'fetch'])->name('fetch');
+    Route::post('create', [ApplicationController::class, 'create'])->name('create');
+    Route::post('update', [ApplicationController::class, 'update'])->name('update');
+    Route::delete('delete', [ApplicationController::class, 'delete'])->name('delete');
 });
