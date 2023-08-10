@@ -101,7 +101,7 @@ class ApplicationController extends Controller
             $request->validate([
                 'name' => ['nullable', 'string', 'max:255'],
                 'desc' => ['nullable', 'string', 'max:255'],
-                'active' => ['nullable', 'string', 'max:255'],
+                'active' => ['nullable', 'integer', 'max:255'],
                 'app_status_id' => ['nullable', 'integer', 'exists:app_statuses,id'],
             ]);
 
@@ -126,6 +126,10 @@ class ApplicationController extends Controller
 
             if ($request->app_status_id)
                 $app->update(['app_status_id' => $request->app_status_id]);
+
+            $app = Application::query()->with(['app_status' => function ($query) {
+                $query->select('id', 'name', 'style');
+            }])->find($app->id);
 
             return ResponseFormatter::success($app, 'Form has been updated successfully');
         } catch (Exception $error) {

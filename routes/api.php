@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ApplicationController;
+use App\Http\Controllers\API\AppStatusController;
 use App\Http\Controllers\API\FormController;
 use App\Http\Controllers\API\FormStatusController;
 use App\Http\Controllers\API\JurusanController;
@@ -12,7 +13,7 @@ use App\Http\Controllers\API\KotaTurkiController;
 use App\Http\Controllers\API\LinkController;
 use App\Http\Controllers\API\MyMenuController;
 use App\Http\Controllers\API\PpiController;
-use App\Http\Controllers\API\NewStudentController;
+use App\Http\Controllers\API\UserApplicationController;
 use App\Http\Controllers\API\UserInfoController;
 
 /*
@@ -121,4 +122,18 @@ Route::prefix('application')->middleware('auth:sanctum')->name('application')->g
     Route::post('create', [ApplicationController::class, 'create'])->name('create');
     Route::post('update', [ApplicationController::class, 'update'])->name('update');
     Route::delete('delete', [ApplicationController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('user-app')->middleware('auth:sanctum')->name('user-app')->group(function () {
+    Route::get('', [UserApplicationController::class, 'fetch'])->name('fetch');
+    Route::post('create', [UserApplicationController::class, 'create'])->name('create');
+    Route::post('update', [UserApplicationController::class, 'update'])->name('update');
+    Route::delete('delete', [UserApplicationController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('app-status')->middleware('auth:sanctum')->name('app-status')->group(function () {
+    Route::get('', [AppStatusController::class, 'fetch'])->name('fetch');
+    Route::post('create', [AppStatusController::class, 'create'])->name('create');
+    Route::post('update', [AppStatusController::class, 'update'])->name('update');
+    Route::delete('delete', [AppStatusController::class, 'delete'])->name('delete');
 });

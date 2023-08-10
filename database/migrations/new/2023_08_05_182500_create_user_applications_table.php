@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('user_applications', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->integer('application_id');
-            $table->integer('app_status_id');
+            $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('application_id')->unsigned();
+            $table->integer('app_status_id')->default(4);
             $table->integer('education_id');
-
-            $table->date('application_date')->default(now());
+            $table->float('nilai_ujian');
+            $table->string('jurusan_1');
+            $table->string('jurusan_2');
+            $table->string('jurusan_3');
+            $table->string('receipt');
             $table->timestamps();
         });
     }

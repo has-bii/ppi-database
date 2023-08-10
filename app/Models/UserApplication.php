@@ -14,7 +14,12 @@ class UserApplication extends Model
         'application_id',
         'app_status_id',
         'education_id',
-        'application_date',
+        'nilai_ujian',
+        'jurusan_1',
+        'jurusan_2',
+        'jurusan_3',
+        'receipt',
+        'updated_at',
     ];
 
     public function user()
