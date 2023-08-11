@@ -64,6 +64,7 @@ class UserController extends Controller
                 'name' => ['required', 'string', 'max:255'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
                 'password' => ['required', 'string', new Password],
+                'role_id' => ['required', 'integer', 'exists:roles,id']
             ]);
 
             // Create user
@@ -71,17 +72,11 @@ class UserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
+                'role_id' => $request->role_id
             ]);
 
-            // Generate token
-            $tokenResult = $user->createToken('authToken')->plainTextToken;
-
             // Return response
-            return ResponseFormatter::success([
-                'access_token' => $tokenResult,
-                'token_type' => 'Bearer',
-                'user' => $user,
-            ], 'User registered');
+            return ResponseFormatter::success(['user' => $user], 'User registered');
         } catch (Exception $e) {
             // TODO: Return error response
             return ResponseFormatter::error($e->getMessage());
