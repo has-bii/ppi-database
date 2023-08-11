@@ -28,18 +28,18 @@ class UserController extends Controller
             // Check email if exists
             $user = User::where('email', $request->email)->first();
             if (!$user) {
-                return ResponseFormatter::error('email is not registered yet!', 401);
+                throw new Exception('email is not registered yet!');
             }
 
             // TODO: Find user by email
             $credentials = request(['email', 'password']);
             if (!Auth::attempt($credentials)) {
-                return ResponseFormatter::error('Invalid password!', 401);
+                throw new Exception('Invalid password!');
             }
 
             // Check if account is verified
             if ($user->is_verified == 0) {
-                return ResponseFormatter::error('Account is not verified by admin!', 404);
+                throw new Exception('Account is not verified by admin!');
             }
 
             // TODO: Generate token
@@ -52,7 +52,7 @@ class UserController extends Controller
                 'user' => $user,
             ], 'Login success');
         } catch (Exception $e) {
-            return ResponseFormatter::error('Authentication failed');
+            return ResponseFormatter::error($e->getMessage(), 404);
         }
     }
 
