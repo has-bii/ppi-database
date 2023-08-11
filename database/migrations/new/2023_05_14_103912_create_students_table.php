@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('ogrenci_belgesi')->nullable();
             $table->bigInteger('universitas_turki_id')->unsigned()->nullable();
             $table->bigInteger('jurusan_id')->unsigned()->nullable();
-            $table->enum('jenjang_pendidikan', ['Lise', 'S1', 'S2', 'S3',])->nullable();
+            $table->enum('jenjang_pendidikan', ['Lise', 'D3/D4', 'S1', 'S2', 'S3',])->nullable();
             $table->enum('tahun_ke', ['TÖMER', '1', '2', '3', '4', '5', '6'])->nullable();
 
             $table->softDeletes();
