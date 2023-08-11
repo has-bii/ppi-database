@@ -46,7 +46,7 @@ class UpdateStudentRequest extends FormRequest
             'ogrenci_belgesi' => 'nullable|file|mimes:pdf,jpg,jpeg,png',
             'universitas_turki_id' => 'nullable|integer',
             'jurusan_id' => 'nullable|integer',
-            'jenjang_pendidikan' => 'nullable|string|in:Lise,S1,S2,S3',
+            'jenjang_pendidikan' => 'nullable|string|in:Lise,D3/D4,S1,S2,S3',
             'tahun_ke' => 'nullable|string|in:TÖMER,1,2,3,4,5,6',
         ];
     }
