@@ -90,7 +90,7 @@ class UserApplicationController extends Controller
                 'receipt' => ['required', 'image', 'mimes:jpg,png,jpeg']
             ]);
 
-            // Pas ijazah
+            // Pas receipt
             if (!$request->file('receipt'))
                 throw new Exception("Receipt is required!");
 
@@ -138,12 +138,25 @@ class UserApplicationController extends Controller
                 'jurusan_1' => ['nullable', 'string'],
                 'jurusan_2' => ['nullable', 'string'],
                 'jurusan_3' => ['nullable', 'string'],
+                'receipt' => ['nullable', 'image', 'mimes:jpg,png,jpeg']
             ]);
 
             $user_app = UserApplication::query()->find($id);
 
             if (!$user_app)
                 throw new Exception("Application has not been found!");
+
+            if ($request->file('receipt')) {
+                if ($user_app->receipt)
+                    unlink(public_path($user_app->receipt));
+
+                $fileReceipt = $request->file('receipt');
+                $fileName = $fileReceipt->getClientOriginalName();
+                $publicPath = public_path('storage/files');
+                $fileReceipt->move($publicPath, $fileName);
+                $pathReceipt = 'storage/files/' . $fileName;
+                $user_app->update(['receipt' => $pathReceipt]);
+            }
 
             if ($request->app_status_id)
                 $user_app->update(['app_status_id' => $request->app_status_id]);

@@ -21,7 +21,6 @@ class ApplicationController extends Controller
             $active = $request->input('active');
             $app_status_id = $request->input('app_status_id');
 
-
             // One data
             if ($id) {
                 $app = Application::query()->with(['app_status', 'user_application'])->find($id);
@@ -35,7 +34,7 @@ class ApplicationController extends Controller
             // All data
             $apps = Application::query()->with(['app_status' => function ($query) {
                 $query->select('id', 'name', 'style');
-            }])->get();
+            }]);
 
             if ($name) {
                 $apps->where('name', 'like', '%' . $name . '%');
@@ -48,14 +47,14 @@ class ApplicationController extends Controller
             if ($app_status_id)
                 $apps->where('app_status_id', $app_status_id);
 
-            if ($active === '0' || $active === '1')
+            if (isset($active))
                 $apps->where('active', $active);
 
             $data = new stdClass;
             $appsRowModel = new Application();
             $app_status = AppStatus::query()->get(['id', 'name', 'style']);
 
-            $data->apps = $apps;
+            $data->apps = $apps->get();
             $data->apps_row = $appsRowModel->getFillable();
             $data->app_status = $app_status;
 
