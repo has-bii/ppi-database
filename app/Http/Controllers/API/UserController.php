@@ -102,7 +102,7 @@ class UserController extends Controller
 
     public function fetchUsers(Request $request)
     {
-        if ($request->user()->role_id == 1) {
+        if ($request->user()->role_id == 1 || $request->user()->role_id == 5) {
 
             $limit = $request->input('limit', 100);
             $name = $request->input('name');
@@ -163,34 +163,55 @@ class UserController extends Controller
     public function updateUser(Request $request)
     {
         try {
-            if ($request->user()->role_id != 1)
-                return ResponseFormatter::error('Request access denied!');
+            if ($request->user()->role_id === 1) {
+                $IDs = $request->input('id');
+                $role_id = $request->input('role_id');
+                $is_verified = $request->input('is_verified');
+                $select_all = $request->input('select_all');
 
-            $IDs = $request->input('id');
-            $role_id = $request->input('role_id');
-            $is_verified = $request->input('is_verified');
-            $select_all = $request->input('select_all');
+                if ($select_all === 'all') {
+                    $users = User::query();
+                } else {
+                    if (!$IDs)
+                        return ResponseFormatter::error('ID is required!');
 
-            if ($select_all === 'all') {
-                $users = User::query();
-            } else {
-                if (!$IDs)
-                    return ResponseFormatter::error('ID is required!');
+                    $IDs = explode(',', $IDs);
+                    $users = User::query()->whereIn('id', $IDs);
+                }
 
-                $IDs = explode(',', $IDs);
-                $users = User::query()->whereIn('id', $IDs);
+                if ($role_id)
+                    $users->update(['role_id' => $role_id]);
+
+                if ($is_verified)
+                    $users->update(['is_verified' => $is_verified]);
+
+                return ResponseFormatter::success(null, 'Updates successful');
             }
 
-            if ($role_id)
-                $users->update(['role_id' => $role_id]);
+            if ($request->user()->role_id === 5) {
+                $IDs = $request->input('id');
+                $is_verified = $request->input('is_verified');
+                $select_all = $request->input('select_all');
 
-            if ($is_verified)
-                $users->update(['is_verified' => $is_verified]);
+                if ($select_all === 'all') {
+                    $users = User::query();
+                } else {
+                    if (!$IDs)
+                        return ResponseFormatter::error('ID is required!');
 
+                    $IDs = explode(',', $IDs);
+                    $users = User::query()->whereIn('id', $IDs);
+                }
 
-            return ResponseFormatter::success(null, 'Updates successful');
+                if ($is_verified)
+                    $users->update(['is_verified' => $is_verified]);
+
+                return ResponseFormatter::success(null, 'Updates successful');
+            }
+
+            throw new Exception('Request access denied!');
         } catch (Exception $e) {
-            return ResponseFormatter::error($e->getMessage(), 500);
+            return ResponseFormatter::error($e->getMessage(), 404);
         }
     }
 
