@@ -1,0 +1,133 @@
+"id","name","created_at","updated_at"
+"1","Mimarlık",NULL,NULL
+"2","Tarih",NULL,NULL
+"3","Diş Hekimliği Fakültesi",NULL,NULL
+"4","Arkeoloji",NULL,NULL
+"5","Coğrafya",NULL,NULL
+"6","Coğrafya (İÖ)",NULL,NULL
+"7","Felsefe",NULL,NULL
+"8","İngiliz Dili ve Edebiyatı",NULL,NULL
+"9","İngiliz Dili ve Edebiyatı (İÖ)",NULL,NULL
+"10","Sanat Tarihi",NULL,NULL
+"11","Sanat Tarihi (İÖ)",NULL,NULL
+"12","Sosyoloji",NULL,NULL
+"13","Sosyoloji (İÖ)",NULL,NULL
+"14","Tarih (İÖ)",NULL,NULL
+"15","Türk Dili ve Edebiyatı",NULL,NULL
+"16","Türk Dili ve Edebiyatı (İÖ) ",NULL,NULL
+"17","Kimya ",NULL,NULL
+"18","Matematik",NULL,NULL
+"19","Spor Yöneticiliği ",NULL,NULL
+"20","Spor Yöneticiliği (İÖ)",NULL,NULL
+"21","İktisat",NULL,NULL
+"22","Siyaset Bilimi ve Kamu Yönetimi",NULL,NULL
+"23","Siyaset Bilimi ve Kamu Yönetimi (İÖ)",NULL,NULL
+"24","Sosyal Hizmet",NULL,NULL
+"25","Uluslararası İlişkiler",NULL,NULL
+"26","Uluslararası İlişkiler (İÖ) ",NULL,NULL
+"27","Uluslararası İlişkiler (%100 İngilizce)",NULL,NULL
+"28","İlahiyat",NULL,NULL
+"29","İlahiyat (İÖ)",NULL,NULL
+"30","Aktüerya Bilimleri",NULL,NULL
+"31","Halkla İlişkiler ve Tanıtım",NULL,NULL
+"32","Halkla İlişkiler ve Tanıtım (İÖ) ",NULL,NULL
+"33","İşletme",NULL,NULL
+"34","Bilgisayar Mühendisliği (% 30 İngilizce) ",NULL,NULL
+"35","Bilgisayar Mühendisliği (% 30 İngilizce) (İÖ) ",NULL,NULL
+"36","Bilgisayar Mühendisliği (%100 İngilizce)",NULL,NULL
+"37","Elektrik-Elektronik Mühendisliği (% 30 İngilizce)",NULL,NULL
+"38","Elektrik-Elektronik Mühendisliği (% 30 İngilizce) (İÖ)",NULL,NULL
+"39","Elektrik-Elektronik Mühendisliği (%100 İngilizce) ",NULL,NULL
+"40","Endüstri Mühendisliği",NULL,NULL
+"41","Endüstri Mühendisliği (İÖ)",NULL,NULL
+"42","İnşaat Mühendisliği",NULL,NULL
+"43","Makine Mühendisliği (% 30 İngilizce) ",NULL,NULL
+"44","Makine Mühendisliği (%100 İngilizce) ",NULL,NULL
+"45","Mekatronik Mühendisliği",NULL,NULL
+"46","Metalurji ve Malzeme Mühendisliği (%100 İngilizce) ",NULL,NULL
+"47","Otomotiv Mühendisliği (% 30 İngilizce) ",NULL,NULL
+"48","Raylı Sistemler Mühendisliği",NULL,NULL
+"49","Raylı Sistemler Mühendisliği (%100 İngilizce)",NULL,NULL
+"50","Tıp Mühendisliği (% 30 İngilizce)",NULL,NULL
+"51","Yazılım Mühendisliği ",NULL,NULL
+"52","Orman Mühendisliği",NULL,NULL
+"53","Endüstri Ürünleri Tasarımı",NULL,NULL
+"54","Gastronomi ve Mutfak Sanatları",NULL,NULL
+"55","Turizm İşletmeciliği",NULL,NULL
+"56","Turizm Rehberliği",NULL,NULL
+"57","Çocuk Gelişimi",NULL,NULL
+"58","Ebelik",NULL,NULL
+"59","Fizyoterapi ve Rehabilitasyon ",NULL,NULL
+"60","Hemşirelik",NULL,NULL
+"61","Mekatronik Mühendisliği",NULL,NULL
+"62","Tıp Fakültesi",NULL,NULL
+"63","Radyo, Televizyon ve Sinema",NULL,NULL
+"64","Gazetecilik ",NULL,NULL
+"65","Adalet",NULL,NULL
+"66","Adalet (İÖ)",NULL,NULL
+"67","Aşçılık ",NULL,NULL
+"68","Gıda Kalite Kontrolü ve Analizi",NULL,NULL
+"69","İş Sağlığı ve Güvenliği ",NULL,NULL
+"70","Bilgi Güvenliği Teknolojisi",NULL,NULL
+"71","İş Sağlığı ve Güvenliği",NULL,NULL
+"72","İş Sağlığı ve Güvenliği (İÖ)",NULL,NULL
+"73","İş Sağlığı ve Güvenliği (Uzaktan Öğretim)",NULL,NULL
+"74","Özel Güvenlik ve Koruma",NULL,NULL
+"75","Özel Güvenlik ve Koruma (İÖ)",NULL,NULL
+"76","Raylı Sistemler Elektrik ve Elektronik Teknolojisi",NULL,NULL
+"77","Raylı Sistemler Elektrik ve Elektronik Teknolojisi (İÖ) ",NULL,NULL
+"78","Raylı Sistemler Makinistlik",NULL,NULL
+"79","Raylı Sistemler Makinistlik (İÖ) ",NULL,NULL
+"80","Bilgisayar Teknolojisi",NULL,NULL
+"81","Çocuk Gelişimi",NULL,NULL
+"82","Çocuk Gelişimi (İÖ)",NULL,NULL
+"83","Çocuk Gelişimi (Uzaktan Öğretim)",NULL,NULL
+"84","Geleneksel El Sanatları",NULL,NULL
+"85","İç Mekan Tasarımı ",NULL,NULL
+"86","İç Mekan Tasarımı (İÖ) ",NULL,NULL
+"87","İşletme Yönetimi ",NULL,NULL
+"88","Mimari Restorasyon",NULL,NULL
+"89","Mimari Restorasyon (İÖ)",NULL,NULL
+"90","Muhasebe ve Vergi Uygulamaları",NULL,NULL
+"91","Radyo ve Televizyon Programcılığı",NULL,NULL
+"92","Radyo ve Televizyon Programcılığı (İÖ)",NULL,NULL
+"93","Turist Rehberliği",NULL,NULL
+"94","Turizm ve Otel İşletmeciliği",NULL,NULL
+"95","Turizm ve Otel İşletmeciliği (İÖ)",NULL,NULL
+"96","Uygulamalı İngilizce ve Çevirmenlik (İngilizce)",NULL,NULL
+"97","Uygulamalı İngilizce ve Çevirmenlik (İngilizce) (İÖ)",NULL,NULL
+"98","Ağız ve Diş Sağlığı",NULL,NULL
+"99","Ağız ve Diş Sağlığı (İÖ)",NULL,NULL
+"100","Ameliyathane Hizmetleri ",NULL,NULL
+"101","Fizyoterapi ",NULL,NULL
+"102","Fizyoterapi (İÖ) ",NULL,NULL
+"103","İlk ve Acil Yardım",NULL,NULL
+"104","İlk ve Acil Yardım (İÖ)",NULL,NULL
+"105","Optisyenlik",NULL,NULL
+"106","Ortopedik Protez ve Ortez",NULL,NULL
+"107","Otopsi Yardımcılığı",NULL,NULL
+"108","Sağlık Kurumları İşletmeciliği",NULL,NULL
+"109","Sağlık Kurumları İşletmeciliği (İÖ)",NULL,NULL
+"110","Sağlık Kurumları İşletmeciliği (Uzaktan Öğretim)",NULL,NULL
+"111","Tıbbi Dokümantasyon ve Sekreterlik ",NULL,NULL
+"112","Tıbbi Dokümantasyon ve Sekreterlik (İÖ)",NULL,NULL
+"113","Tıbbi Laboratuvar Teknikleri ",NULL,NULL
+"114","Tıbbi Laboratuvar Teknikleri (İÖ)",NULL,NULL
+"115","Tıbbi Tanıtım ve Pazarlama",NULL,NULL
+"116","Tıbbi Tanıtım ve Pazarlama (İÖ) ",NULL,NULL
+"117","Yaşlı Bakımı",NULL,NULL
+"118","Yaşlı Bakımı (İÖ)",NULL,NULL
+"119","Bilgisayar Programcılığı",NULL,NULL
+"120","Elektrik ",NULL,NULL
+"121","Elektronik Teknolojisi",NULL,NULL
+"122","İklimlendirme ve Soğutma Teknolojisi",NULL,NULL
+"123","Kaynak Teknolojisi ",NULL,NULL
+"124","Makine",NULL,NULL
+"125","Otobüs Kaptanlığı",NULL,NULL
+"126","Otomotiv Teknolojisi ",NULL,NULL
+"127","Sivil Savunma ve İtfaiyecilik",NULL,NULL
+"128","Sivil Savunma ve İtfaiyecilik (İÖ)",NULL,NULL
+"129","Ulaştırma ve Trafik Hizmetleri",NULL,NULL
+"130","Bilgisayar Programcılığı ",NULL,NULL
+"131","Raylı Sistemler Makine Teknolojisi",NULL,NULL
+"132","Ilahiyat",NULL,NULL
