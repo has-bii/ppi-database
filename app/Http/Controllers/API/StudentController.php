@@ -173,7 +173,7 @@ class StudentController extends Controller
                 'provinsi_indonesia' => isset($studentRequest->provinsi_indonesia) ? $studentRequest->provinsi_indonesia : $student->provinsi_indonesia,
                 'kota_asal_indonesia' => isset($studentRequest->kota_asal_indonesia) ? $studentRequest->kota_asal_indonesia : $student->kota_asal_indonesia,
                 'alamat_lengkap_indonesia' => isset($studentRequest->alamat_lengkap_indonesia) ? $studentRequest->alamat_lengkap_indonesia : $student->alamat_lengkap_indonesia,
-                'tempat_tinggal' => isset($studentRequest->tempat_tinggal) ? $studentRequest->tempat_tinggal : $student->tempat_tinggal,
+                'jalur' => isset($studentRequest->jalur) ? $studentRequest->jalur : $student->jalur,
                 'kota_turki_id' => isset($studentRequest->kota_turki_id) ? $studentRequest->kota_turki_id : $student->kota_turki_id,
                 'alamat_turki' => isset($studentRequest->alamat_turki) ? $studentRequest->alamat_turki : $student->alamat_turki,
                 'whatsapp' => isset($studentRequest->whatsapp) ? $studentRequest->whatsapp : $student->whatsapp,
