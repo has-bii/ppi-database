@@ -13,6 +13,7 @@ use App\Http\Controllers\API\KotaTurkiController;
 use App\Http\Controllers\API\LinkController;
 use App\Http\Controllers\API\MyMenuController;
 use App\Http\Controllers\API\PpiController;
+use App\Http\Controllers\API\RoleController;
 use App\Http\Controllers\API\UserApplicationController;
 use App\Http\Controllers\API\UserInfoController;
 
@@ -136,4 +137,11 @@ Route::prefix('app-status')->middleware('auth:sanctum')->name('app-status')->gro
     Route::post('create', [AppStatusController::class, 'create'])->name('create');
     Route::post('update', [AppStatusController::class, 'update'])->name('update');
     Route::delete('delete', [AppStatusController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('role')->middleware('auth:sanctum')->name('role')->group(function () {
+    Route::get('', [RoleController::class, 'fetch'])->name('fetch');
+    Route::post('create', [RoleController::class, 'create'])->name('create');
+    Route::post('update', [RoleController::class, 'update'])->name('update');
+    Route::delete('delete', [RoleController::class, 'delete'])->name('delete');
 });
