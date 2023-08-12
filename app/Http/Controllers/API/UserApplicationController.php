@@ -95,7 +95,7 @@ class UserApplicationController extends Controller
                 throw new Exception("Receipt is required!");
 
             $fileReceipt = $request->file('receipt');
-            $fileName = $fileReceipt->getClientOriginalName();
+            $fileName = $request->user()->id . '_receipt.'. $fileReceipt->getClientOriginalExtension();
             $publicPath = public_path('storage/files');
             $fileReceipt->move($publicPath, $fileName);
             $pathReceipt = 'storage/files/' . $fileName;
