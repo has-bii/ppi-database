@@ -123,7 +123,7 @@ class StudentController extends Controller
 
                 $filePhoto = $studentRequest->file('photo');
 
-                $fileName = $filePhoto->getClientOriginalName();
+                $fileName = $student->tc_kimlik . '_photo.' . $filePhoto->getClientOriginalExtension();
 
                 $publicPath = public_path('storage/photos');
 
@@ -138,7 +138,7 @@ class StudentController extends Controller
 
                 $fileIkamet = $studentRequest->file('ikamet_file');
 
-                $fileName = $fileIkamet->getClientOriginalName();
+                $fileName = $student->tc_kimlik . '_ikamet.' . $fileIkamet->getClientOriginalExtension();
 
                 $publicPath = public_path('storage/ikamet');
 
@@ -153,7 +153,7 @@ class StudentController extends Controller
 
                 $fileObel = $studentRequest->file('ogrenci_belgesi');
 
-                $fileName = $fileObel->getClientOriginalName();
+                $fileName = $student->tc_kimlik . '_obel.' . $fileObel->getClientOriginalExtension();
 
                 $publicPath = public_path('storage/obel');
 
