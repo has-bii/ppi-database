@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('alamat');
             $table->string('email');
             $table->string('no_hp');
-            $table->string('no_hp_lain');
+            $table->string('no_hp_lain')->nullable();
             $table->string('nama_sekolah');
             $table->string('kota_sekolah');
             $table->string('pas_photo');
