@@ -28,7 +28,7 @@ return new class extends Migration
             $table->string('provinsi_indonesia')->nullable();
             $table->string('kota_asal_indonesia')->nullable();
             $table->string('alamat_lengkap_indonesia')->nullable();
-            $table->enum('tempat_tinggal', ['Apartemen', 'Asrama'])->nullable();
+            $table->enum('jalur', ['Agen', 'Mandiri'])->nullable();
             $table->bigInteger('kota_turki_id')->unsigned()->nullable();
             $table->string('alamat_turki')->nullable();
             $table->string('tahun_kedatangan')->nullable();

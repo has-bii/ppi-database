@@ -18,7 +18,7 @@ class LinkSeeder extends Seeder
         Link::create(['my_menu_id' => 1, 'name' => 'Forms', 'active' => 0, 'url' => '/my-app/admin/forms', 'icon' => 'faFileLines']);
         Link::create(['my_menu_id' => 2, 'name' => 'Database', 'active' => 1, 'url' => '/my-app/student/isi-database', 'icon' => 'faFilePen']);
         Link::create(['my_menu_id' => 3, 'name' => 'Daftar', 'active' => 1, 'url' => '/my-app/user/daftar-kampus', 'icon' => 'faGraduationCap']);
-        Link::create(['my_menu_id' => 3, 'name' => 'Menu', 'active' => 1, 'url' => '/my-app/user/biodata', 'icon' => 'faUserPen']);
+        Link::create(['my_menu_id' => 3, 'name' => 'Biodata', 'active' => 1, 'url' => '/my-app/user/biodata', 'icon' => 'faUserPen']);
         Link::create(['my_menu_id' => 5, 'name' => 'Pendaftaran', 'active' => 1, 'url' => '/my-app/PPMB/application', 'icon' => 'faFileCirclePlus']);
         Link::create(['my_menu_id' => 5, 'name' => 'Status', 'active' => 1, 'url' => '/my-app/PPMB/status', 'icon' => 'faTag']);
         Link::create(['my_menu_id' => 5, 'name' => 'Verify', 'active' => 1, 'url' => '/my-app/PPMB/users', 'icon' => 'faUserGroup']);

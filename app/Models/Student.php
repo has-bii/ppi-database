@@ -22,7 +22,7 @@ class Student extends Model
         'provinsi_indonesia',
         'kota_asal_indonesia',
         'alamat_lengkap_indonesia',
-        'tempat_tinggal',
+        'jalur',
         'kota_turki_id',
         'alamat_turki',
         'whatsapp',

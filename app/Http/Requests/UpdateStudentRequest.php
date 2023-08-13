@@ -32,7 +32,7 @@ class UpdateStudentRequest extends FormRequest
             'provinsi_indonesia' => 'nullable|string|max:255',
             'kota_asal_indonesia' => 'nullable|string|max:255',
             'alamat_lengkap_indonesia' => 'nullable|string|max:255',
-            'tempat_tinggal' => 'nullable|string|max:255',
+            'jalur' => 'nullable|in:Agen,Mandiri',
             'kota_turki_id' => 'nullable|integer',
             'alamat_turki' => 'nullable|string|max:255',
             'whatsapp' => 'nullable|string|max:255',
