@@ -95,7 +95,7 @@ class UserApplicationController extends Controller
                 throw new Exception("Receipt is required!");
 
             $fileReceipt = $request->file('receipt');
-            $fileName = $request->user()->id . '_receipt.'. $fileReceipt->getClientOriginalExtension();
+            $fileName = $request->user()->id . '_receipt.' . $fileReceipt->getClientOriginalExtension();
             $publicPath = public_path('storage/files');
             $fileReceipt->move($publicPath, $fileName);
             $pathReceipt = 'storage/files/' . $fileName;
@@ -172,6 +172,10 @@ class UserApplicationController extends Controller
 
             if ($request->jurusan_3)
                 $user_app->update(['jurusan_3' => $request->jurusan_3]);
+
+            $user_app = UserApplication::query()->with(['user' => function ($query) {
+                $query->with('user_info');
+            }, 'application', 'app_status', 'education'])->find($user_app->id);
 
             return ResponseFormatter::success($user_app, 'User Application has been updated successfully');
         } catch (Exception $error) {
