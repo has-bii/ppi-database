@@ -87,7 +87,7 @@ class UserApplicationController extends Controller
                 'jurusan_1' => ['required', 'string'],
                 'jurusan_2' => ['required', 'string'],
                 'jurusan_3' => ['required', 'string'],
-                'receipt' => ['required', 'image', 'mimes:jpg,png,jpeg']
+                'receipt' => ['required', 'image', 'mimes:jpg,png,jpeg,JPG']
             ]);
 
             // Pas receipt

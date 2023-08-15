@@ -38,7 +38,7 @@ class CreateUserInfoRequest extends FormRequest
             'no_hp_lain' => 'nullable|string|max:255',
             'nama_sekolah' => 'required|string|max:255',
             'kota_sekolah' => 'required|string|max:255',
-            'pas_photo' => 'required|image|mimes:png,jpg,jpeg',
+            'pas_photo' => 'required|image|mimes:png,jpg,jpeg,JPG',
             'ijazah' => 'required|file|mimes:pdf',
             'transkrip' => 'required|file|mimes:pdf',
             'paspor' => 'required|file|mimes:pdf',
