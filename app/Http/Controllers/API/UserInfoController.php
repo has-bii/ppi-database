@@ -40,47 +40,48 @@ class UserInfoController extends Controller
     public function create(Request $request, CreateUserInfoRequest $createUserInfoRequest)
     {
         try {
+            $user_id = $request->user()->id;
 
             // Pas photo
             $filePhoto = $createUserInfoRequest->file('pas_photo');
-            $fileName = $filePhoto->getClientOriginalName();
+            $fileName = $user_id . '_photo.' . $filePhoto->getClientOriginalExtension();
             $publicPath = public_path('storage/photos');
             $filePhoto->move($publicPath, $fileName);
             $pathPhoto = 'storage/photos/' . $fileName;
 
             // Pas ijazah
-            $filePhoto = $createUserInfoRequest->file('ijazah');
-            $fileName = $filePhoto->getClientOriginalName();
+            $fileIjazah = $createUserInfoRequest->file('ijazah');
+            $fileName = $user_id . '_ijazah.' . $fileIjazah->getClientOriginalExtension();
             $publicPath = public_path('storage/files');
-            $filePhoto->move($publicPath, $fileName);
+            $fileIjazah->move($publicPath, $fileName);
             $pathIjazah = 'storage/files/' . $fileName;
 
             // Pas transkrip
-            $filePhoto = $createUserInfoRequest->file('transkrip');
-            $fileName = $filePhoto->getClientOriginalName();
+            $fileTranskrip = $createUserInfoRequest->file('transkrip');
+            $fileName = $user_id . '_transkrip.' . $fileTranskrip->getClientOriginalExtension();
             $publicPath = public_path('storage/files');
-            $filePhoto->move($publicPath, $fileName);
+            $fileTranskrip->move($publicPath, $fileName);
             $pathTranskrip = 'storage/files/' . $fileName;
 
             // Pas paspor
-            $filePhoto = $createUserInfoRequest->file('paspor');
-            $fileName = $filePhoto->getClientOriginalName();
+            $filePaspor = $createUserInfoRequest->file('paspor');
+            $fileName = $user_id . '_paspor.' . $filePaspor->getClientOriginalExtension();
             $publicPath = public_path('storage/files');
-            $filePhoto->move($publicPath, $fileName);
+            $filePaspor->move($publicPath, $fileName);
             $pathPaspor = 'storage/files/' . $fileName;
 
             // Pas surat_rekomendasi
-            $filePhoto = $createUserInfoRequest->file('surat_rekomendasi');
-            $fileName = $filePhoto->getClientOriginalName();
+            $fileRekomendasi = $createUserInfoRequest->file('surat_rekomendasi');
+            $fileName = $user_id . '_rekomendasi.' . $fileRekomendasi->getClientOriginalExtension();
             $publicPath = public_path('storage/files');
-            $filePhoto->move($publicPath, $fileName);
+            $fileRekomendasi->move($publicPath, $fileName);
             $pathSuratRekomendasi = 'storage/files/' . $fileName;
 
             // Pas surat_izin
-            $filePhoto = $createUserInfoRequest->file('surat_izin');
-            $fileName = $filePhoto->getClientOriginalName();
+            $fileIzin = $createUserInfoRequest->file('surat_izin');
+            $fileName = $user_id . '_izin.' . $fileIzin->getClientOriginalExtension();
             $publicPath = public_path('storage/files');
-            $filePhoto->move($publicPath, $fileName);
+            $fileIzin->move($publicPath, $fileName);
             $pathSuratIzin = 'storage/files/' . $fileName;
 
             $new_user_info = UserInfo::create([
@@ -121,6 +122,8 @@ class UserInfoController extends Controller
     {
         try {
 
+            $user_id = $request->user()->id;
+
             $user_info = UserInfo::query()->where('user_id', $request->user()->id)->first();
 
             if (!$user_info)
@@ -130,13 +133,13 @@ class UserInfoController extends Controller
                 if ($user_info->pas_photo)
                     unlink(public_path($user_info->pas_photo));
 
-                $filePasPhoto = $updateUserInfoRequest->file('pas_photo');
-                $fileName = $filePasPhoto->getClientOriginalName();
+                $filePhoto = $updateUserInfoRequest->file('pas_photo');
+                $fileName = $user_id . '_photo.' . $filePhoto->getClientOriginalExtension();
                 $publicPath = public_path('storage/photos');
-                $filePasPhoto->move($publicPath, $fileName);
-                $pathPasPhoto = 'storage/photos/' . $fileName;
+                $filePhoto->move($publicPath, $fileName);
+                $pathPhoto = 'storage/photos/' . $fileName;
 
-                $user_info->pas_photo = $pathPasPhoto;
+                $user_info->pas_photo = $pathPhoto;
             }
 
             if ($updateUserInfoRequest->hasFile('ijazah')) {
@@ -144,7 +147,7 @@ class UserInfoController extends Controller
                     unlink(public_path($user_info->ijazah));
 
                 $fileIjazah = $updateUserInfoRequest->file('ijazah');
-                $fileName = $fileIjazah->getClientOriginalName();
+                $fileName = $user_id . '_ijazah.' . $fileIjazah->getClientOriginalExtension();
                 $publicPath = public_path('storage/files');
                 $fileIjazah->move($publicPath, $fileName);
                 $pathIjazah = 'storage/files/' . $fileName;
@@ -157,7 +160,7 @@ class UserInfoController extends Controller
                     unlink(public_path($user_info->transkrip));
 
                 $fileTranskrip = $updateUserInfoRequest->file('transkrip');
-                $fileName = $fileTranskrip->getClientOriginalName();
+                $fileName = $user_id . '_transkrip.' . $fileTranskrip->getClientOriginalExtension();
                 $publicPath = public_path('storage/files');
                 $fileTranskrip->move($publicPath, $fileName);
                 $pathTranskrip = 'storage/files/' . $fileName;
@@ -170,7 +173,7 @@ class UserInfoController extends Controller
                     unlink(public_path($user_info->paspor));
 
                 $filePaspor = $updateUserInfoRequest->file('paspor');
-                $fileName = $filePaspor->getClientOriginalName();
+                $fileName = $user_id . '_paspor.' . $filePaspor->getClientOriginalExtension();
                 $publicPath = public_path('storage/files');
                 $filePaspor->move($publicPath, $fileName);
                 $pathPaspor = 'storage/files/' . $fileName;
@@ -183,7 +186,7 @@ class UserInfoController extends Controller
                     unlink(public_path($user_info->surat_rekomendasi));
 
                 $fileSuratRekomendasi = $updateUserInfoRequest->file('surat_rekomendasi');
-                $fileName = $fileSuratRekomendasi->getClientOriginalName();
+                $fileName = $user_id . '_rekomendasi.' . $fileSuratRekomendasi->getClientOriginalExtension();
                 $publicPath = public_path('storage/files');
                 $fileSuratRekomendasi->move($publicPath, $fileName);
                 $pathSuratRekomendasi = 'storage/files/' . $fileName;
@@ -196,7 +199,7 @@ class UserInfoController extends Controller
                     unlink(public_path($user_info->surat_izin));
 
                 $fileSuratIzin = $updateUserInfoRequest->file('surat_izin');
-                $fileName = $fileSuratIzin->getClientOriginalName();
+                $fileName = $user_id . '_izin.' . $fileSuratIzin->getClientOriginalExtension();
                 $publicPath = public_path('storage/files');
                 $fileSuratIzin->move($publicPath, $fileName);
                 $pathSuratIzin = 'storage/files/' . $fileName;
