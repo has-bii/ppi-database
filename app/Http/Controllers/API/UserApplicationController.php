@@ -94,11 +94,8 @@ class UserApplicationController extends Controller
             if (!$request->file('receipt'))
                 throw new Exception("Receipt is required!");
 
-            $fileReceipt = $request->file('receipt');
-            $fileName = $request->user()->id . '_receipt.' . $fileReceipt->getClientOriginalExtension();
-            $publicPath = public_path('storage/files');
-            $fileReceipt->move($publicPath, $fileName);
-            $pathReceipt = 'storage/files/' . $fileName;
+            $request->file('receipt')->store('public/files');
+            $fileName = '/storage/files/' . $request->file('receipt')->hashName();
 
             $user_app = UserApplication::create([
                 'user_id' => $request->user()->id,
@@ -109,7 +106,7 @@ class UserApplicationController extends Controller
                 'jurusan_2' => $request->jurusan_2,
                 'jurusan_3' => $request->jurusan_3,
                 'jurusan_3' => $request->jurusan_3,
-                'receipt' => $pathReceipt,
+                'receipt' => $fileName
             ]);
 
             if (!$user_app)
